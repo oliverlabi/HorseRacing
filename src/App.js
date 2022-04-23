@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import './App.less';
+import CreateRacePage from './pages/CreateRacePage';
+import RacesPage from './pages/RacesPage';
+import PageLayout from './components/PageLayout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<PageLayout/>}>
+            <Route index element={<RacesPage />} />
+            <Route path='create-race' element={<CreateRacePage/>} />
+            <Route
+                path='*'
+                element={<Navigate to='/' replace />}
+            />
+          </Route>
+        </Routes>
+    </BrowserRouter>
   );
 }
 
