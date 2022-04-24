@@ -1,9 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Menu, Layout } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
 const { Content, Footer, Sider } = Layout;
 
 function PageLayout(){
+    const [matches, setMatches] = useState(
+        window.matchMedia(('(min-width: 1200px)')).matches
+    )
+
+    useEffect(() => {
+        window
+        .matchMedia(('(min-width: 1200px)'))
+        .addEventListener('change', e => setMatches(e.matches));
+    }, []);
+
     return(
         <Layout style={{
                 height: '100vh', 
@@ -13,7 +24,7 @@ function PageLayout(){
                 fontWeight: '500',
             }}>
             <Sider
-                breakpoint='lg'
+                breakpoint='xl'
                 collapsedWidth='0'
                 width='40vw'
                 style={{
@@ -23,6 +34,7 @@ function PageLayout(){
                         backgroundColor: '#ffffff', 
                         height: '100vh', 
                         paddingTop: '5vh',
+                        marginRight: '40px',
                     }}>
                 <div className='Sider-title' 
                     style={{
@@ -61,13 +73,39 @@ function PageLayout(){
             </Sider>
             <Layout>
                 <Content>
-                <div className='site-layout-background' 
-                    style={{
-                        height: '100%', 
-                        textAlign: 'center',
-                    }}>
-                    <Outlet/>
-                </div>
+                    <Content
+                        ><div>
+                        {matches && (
+                        <div className='purpleBar'
+                            style={{
+                                width: '36px', 
+                                height: '100vh', 
+                                backgroundColor: '#990AE3', 
+                                position: 'fixed', 
+                                top: 0, 
+                                marginLeft: -40,
+                                display: 'none',
+                            }}/>)}
+                        {!matches && (
+                        <div className='purpleBar'
+                            style={{
+                                width: '36px', 
+                                height: '100vh', 
+                                backgroundColor: '#990AE3', 
+                                position: 'fixed', 
+                                top: 0, 
+                                marginLeft: -40,
+                                display: 'flex',
+                            }}/>)}
+                        </div>
+                    </Content>
+                    <div className='site-layout-background' 
+                        style={{
+                            height: '100%', 
+                            textAlign: 'center',
+                        }}>
+                        <Outlet/>
+                    </div>
                 </Content>
             </Layout>
         </Layout>
