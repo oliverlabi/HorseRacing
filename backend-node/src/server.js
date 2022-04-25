@@ -1,18 +1,23 @@
 const cors = require('cors');
 const mongoose = require("mongoose");
 const express = require('express');
+require("dotenv").config();
 const PORT = process.env.PORT || 8000
 
-require("dotenv").config();
+const authRoutes = require('./routes/auth');
+const raceRoutes = require('./routes/race');
 
 const app = express()
 app.use(express.json());
 
-
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Up and running")
 })
+
+app.use('/api/auth', authRoutes);
+app.use('/api/race', raceRoutes);
 
 mongoose
     .connect('mongodb://localhost:27017/test', {
