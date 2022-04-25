@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/race', raceRoutes);
 
 mongoose
-    .connect('mongodb://localhost:27017/test', {
+    .connect('mongodb://localhost:27017/horse-racing', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

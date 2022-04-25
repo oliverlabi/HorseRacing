@@ -7,6 +7,7 @@ const raceSchema = new Schema({
     raceDescription: { type: String, required: true, maxLength: 300 },
     startingTime: { type: Date, required: true },
     participatingHorses: [{}],
+    winningHorse: { type: String },
     createdBy: { type: mongoose.Schema.Types.String, required: true, ref: "User"},
     createdAt: { type: Date, default: Date.now }
 });

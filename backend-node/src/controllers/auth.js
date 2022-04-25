@@ -39,10 +39,10 @@ exports.signup = async (req, res) => {
         if (userCheck) throw Error("User with that username already exists")
 
         const salt = await bcrypt.genSalt(10)
-        if (!salt) throw Error("Something critical happened 4833875")
+        if (!salt) throw Error("Something critical happened! Code:4833875")
 
         const hash = await bcrypt.hash(password, salt)
-        if (!hash) throw Error("Something critical happened 123237")
+        if (!hash) throw Error("Something critical happened! Code:123237")
 
         const newUser = new User({
             userName,
@@ -55,6 +55,19 @@ exports.signup = async (req, res) => {
 
         res.status(200).json({ message: "User created successfully" })
     } catch (e) {
+        res.status(400).json({ error: e.message })
+    }
+}
+
+exports.getUser = async (req, res) => {
+    const { userName } = req.params;
+    try{
+        const data = await User.findOne({userName: userName})
+
+        if (!data) throw Error("Error finding user")
+
+        res.status(200).json(data)
+    } catch (e){
         res.status(400).json({ error: e.message })
     }
 }

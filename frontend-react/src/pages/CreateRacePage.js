@@ -1,5 +1,4 @@
 import '../App.less';
-import './CreateRacePage.css'
 import moment from 'moment';
 import { useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, Checkbox, Col, Row, message } from 'antd';
@@ -52,7 +51,7 @@ function CreateRacePage(){
     }
 
     return(
-        <div className='sub-background'>
+        <div>
             <h1>Create a race</h1>
             <br/>
             <Form
