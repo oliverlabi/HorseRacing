@@ -5,6 +5,7 @@ import RacesPage from './pages/RacesPage';
 import AccountPage from './pages/AccountPage';
 import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
+import HorsesPage from './pages/HorsesPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path='create-race' element={<CreateRacePage/>} />
             <Route path='account' element={<AccountPage/>} />
             <Route path='account/register' element={<RegistrationForm/>} />
+            <Route path='horses' element={<HorsesPage/>} />
             <Route
                 path='*'
                 element={<Navigate to='/' replace />}

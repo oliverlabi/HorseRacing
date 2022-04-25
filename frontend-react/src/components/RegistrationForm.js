@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {Form, Input, Button, message} from 'antd';
+import {Form, Input, Button} from 'antd';
 import BackendUrl from './BackendUrl';
+import SuccessMessage from './SuccessMessage';
+import ErrorMessage from './ErrorMessage';
 
-function RegistrationForm(){
+const RegistrationForm = () => {
     const navigate = useNavigate();
 
     const onFinish = (values) => {
@@ -12,23 +14,15 @@ function RegistrationForm(){
                 headers: {"Content-Type":"application/json"}
             }).then(response => {
                 if(response.ok){
-                    let successEvent = "Account successfully created!"
-                    displaySuccess(successEvent);
+                    SuccessMessage("Account successfully created!");
                     return navigate("/account");
                 } else {
                     throw new Error("Error signing up!");
                 }
             }).catch(error => {
-                displayError(error);
+                ErrorMessage(error);
             });
 
-        const displayError = (error) => {
-            message.error(error.toString());
-        }
-
-        const displaySuccess = (success) => {
-            message.success(success);
-        }
     }
 
     return(

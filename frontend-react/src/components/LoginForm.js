@@ -1,16 +1,17 @@
 import { useContext } from "react"
 import { Context } from "../store";
-import {Form, Input, Button, message} from 'antd';
+import {Form, Input, Button} from 'antd';
 import { Link } from 'react-router-dom';
 import { loginUser } from "../store/actions";
 import BackendUrl from './BackendUrl';
+import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
 
 
 function Login(){
     const [state, dispatch] = useContext(Context)
     
     const onFinish = (values) => {
-        console.log(values);
         const loginAttempt = {
             userName: values.userName,
             password: values.password,
@@ -26,11 +27,11 @@ function Login(){
                 throw new Error("Invalid credentials!");
             }
         }).catch(error => {
-            displayError(error);
+            ErrorMessage(error);
         });
     }
 
-    function fetchUserData(loginAttempt){
+    const fetchUserData = (loginAttempt) => {
         fetch(BackendUrl + 'api/auth/' + loginAttempt.userName)
         .then(response => {
             return response.json();
@@ -38,21 +39,14 @@ function Login(){
         .then(data => {
             const loginState = {
                 username: loginAttempt.userName,
-                token: data.password
+                token: data.password,
+                balance: data.balance
             }
             dispatch(loginUser(loginState))
-            displaySuccess("Successful login!")
+            SuccessMessage('Successful login!');
         }).catch(error => {
-            displayError(error)
+            ErrorMessage(error);
         });
-    }
-    
-    const displayError = (error) => {
-        message.error(error.toString());
-    }
-
-    const displaySuccess = (success) => {
-        message.success(success);
     }
 
     return(

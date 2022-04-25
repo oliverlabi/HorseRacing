@@ -60,7 +60,7 @@ exports.signup = async (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-    const { userName } = req.params;
+    const { userName } = req.params
     try{
         const data = await User.findOne({userName: userName})
 
@@ -68,6 +68,34 @@ exports.getUser = async (req, res) => {
 
         res.status(200).json(data)
     } catch (e){
+        res.status(400).json({ error: e.message })
+    }
+}
+
+exports.modifyBalance = async (req, res) => {
+    const { amount, operator } = req.body
+    const { userName } = req.params
+    
+    try{
+        const data = await User.findOne({userName: userName})
+
+        if (!data) throw Error("Error finding user")
+        switch (operator) {
+            case "1":
+                const addWinningBalanceToUser = await User.findOneAndUpdate({userName: userName}, { $inc: { balance: amount}})
+                if(!addWinningBalanceToUser) throw Error("Error adding winning balance to user!")
+                break;
+            case "2":
+                const removeBalanceFromUser = await User.findOneAndUpdate({userName: userName}, { $inc: { balance: -amount}})
+                if(!removeBalanceFromUser) throw Error("Error removing balance from user!")
+                break;
+            default:
+                const addTopUpBalanceToUser = await User.findOneAndUpdate({userName: userName}, { $inc: { balance: 1}})
+                if(!addTopUpBalanceToUser) throw Error("Error topping up user's balance!")
+        }
+
+        res.status(200).json({ message: "Changing balance was successful!" })
+    } catch (e) {
         res.status(400).json({ error: e.message })
     }
 }

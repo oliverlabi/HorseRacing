@@ -44,4 +44,6 @@ router.post(
 
 router.get("/:userName", authController.getUser);
 
+router.put("/modifyBalance/:userName", authController.modifyBalance);
+
 module.exports = router;

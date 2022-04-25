@@ -1,6 +1,6 @@
 import '../App.less';
 
-function RacesPage(){
+const RacesPage = () => {
     return(
         <p>RacesPage</p>
     );

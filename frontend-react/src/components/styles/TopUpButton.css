@@ -1,0 +1,41 @@
+.circle {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    background-color: #990AE3;
+    border-radius: 50%;
+    user-select: 'none';
+    cursor: pointer;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.circle:hover {
+    cursor: pointer;
+}
+
+.circle:active {
+    background-color: #60068E;
+    animation: wobble 1s 1;
+    cursor: grab;
+}
+
+@keyframes wobble {
+    25% {
+        transform: rotate(15deg);
+    }
+    50% {
+        transform: rotate(-30deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}

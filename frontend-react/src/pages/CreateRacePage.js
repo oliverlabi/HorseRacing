@@ -1,18 +1,29 @@
 import '../App.less';
 import moment from 'moment';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { Context } from "../store";
+import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, DatePicker, Select, Checkbox, Col, Row, message } from 'antd';
 
-function CreateRacePage(){
+const CreateRacePage = () => {
+    const [state] = useContext(Context);
     const [currentDate, setCurrentDate] = useState(moment());
     const { TextArea } = Input;
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(state.auth.username == null) {
+            navigate('/account')
+        }
+    }, []);
 
     const onFinish = (values) => {
         console.log(values);
         checkCheckboxCount(values.horsesGroup);
     }
 
-    function checkCheckboxCount(array){
+    const checkCheckboxCount = (array) => {
         if(array.length < 2){
             message.error('You must choose at least two horses!');
         } else if (array.length > 6) {
@@ -22,7 +33,7 @@ function CreateRacePage(){
         }
     }
 
-    function getDisabledHours(){
+    const getDisabledHours = () => {
         var hours = [];
         if(currentDate.date() === moment().date()){
             for(var i = 0; i < moment().hour(); i++){
@@ -32,7 +43,7 @@ function CreateRacePage(){
         return hours;
     }
 
-    function getDisabledMinutes(selectedHour){
+    const getDisabledMinutes = (selectedHour) => {
         var minutes = [];
         if (selectedHour === moment().hour() && currentDate.date() === moment().date()){
             for(var i =0; i < moment().minute(); i++){
@@ -42,7 +53,7 @@ function CreateRacePage(){
         return minutes;
     }
 
-    function disabledDate(current){
+    const disabledDate = (current) => {
         return current < moment().startOf('day');
     }
 
@@ -186,8 +197,10 @@ function CreateRacePage(){
                     </Form.Item>
             </Form>
         </div>
-        
     );
+
+
+    
 }
 
 export default CreateRacePage;

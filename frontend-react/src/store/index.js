@@ -8,7 +8,8 @@ const initialRaces = {
 
 const initialAuth = {
     username: null,
-    token: null
+    token: null,
+    balance: null
 }
 
 const [combinedReducer, initialState] = combineReducers({

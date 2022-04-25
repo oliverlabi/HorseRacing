@@ -5,10 +5,12 @@ import { Context } from '../store';
 
 const { Content, Footer, Sider } = Layout;
 
-function PageLayout(){
+const PageLayout = () => {
     const [state] = useContext(Context);
     const [accountBtn, setAccountBtn] = useState('');
+    const [hideMeter, setHiddenMeter] = useState('none');
     const [siderWidth, setSiderWidth] = useState('40vw');
+    const [balanceMeter, setBalanceMeter] = useState('horizontal-tb');
     const [matches, setMatches] = useState(
         window.matchMedia(('(min-width: 1200px)')).matches
     )
@@ -20,14 +22,20 @@ function PageLayout(){
 
         if(!matches){
             setSiderWidth('calc(100vw - 32px)');
+            setBalanceMeter('vertical-rl');
+            
         } else if(matches) {
             setSiderWidth('40vw');
+            setBalanceMeter('horizontal-tb');
+            
         }
 
         if(state.auth.token != null){
             setAccountBtn('My account');
+            setHiddenMeter('block');
         } else {
             setAccountBtn('Login');
+            setHiddenMeter('none');
         }
     }, [state, matches]);
 
@@ -100,6 +108,7 @@ function PageLayout(){
                                 backgroundColor: '#990AE3', 
                                 position: 'fixed', 
                                 top: 0, 
+                                left: 0,
                                 marginLeft: -40,
                                 display: 'none',
                             }}/>)}
@@ -120,6 +129,16 @@ function PageLayout(){
                         <div className='sub-background'>
                             <Outlet/>
                         </div>
+                        <div className='balance-meter'><h3
+                            style={{
+                                position: 'fixed',
+                                bottom: 0,
+                                marginLeft: '-35px',
+                                writingMode: balanceMeter,
+                                display: hideMeter
+                            }}
+                        >
+                            Balance: {state.auth.balance} c</h3></div>
                     </div>
                 </Content>
             </Layout>
