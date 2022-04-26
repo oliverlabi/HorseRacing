@@ -42,7 +42,7 @@ function Login(){
                 token: data.password,
                 balance: data.balance
             }
-            dispatch(loginUser(loginState))
+            dispatch(loginUser(loginState));
             SuccessMessage('Successful login!');
         }).catch(error => {
             ErrorMessage(error);

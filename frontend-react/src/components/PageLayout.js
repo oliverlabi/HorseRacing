@@ -1,25 +1,61 @@
 import { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../store';
 
 const { Content, Footer, Sider } = Layout;
 
 const PageLayout = () => {
     const [state] = useContext(Context);
+    const location = useLocation()
+    const navigation = useNavigate();
     const [accountBtn, setAccountBtn] = useState('');
     const [hideMeter, setHiddenMeter] = useState('none');
     const [siderWidth, setSiderWidth] = useState('40vw');
+    const [siderKey, setSiderKey] = useState(0);
     const [balanceMeter, setBalanceMeter] = useState('horizontal-tb');
     const [matches, setMatches] = useState(
         window.matchMedia(('(min-width: 1200px)')).matches
     )
+
+    const siderLinks = [
+        { key: '1', label: 'Races', path: '/races' },
+        { key: '2', label: 'Create a race', path: '/create-race' },
+        { key: '3', label: 'Horses', path: '/horses' },
+        { key: '4', label: 'Tracks', path: '/tracks' },
+        { key: '5', label: 'Betting odds', path: '/betting-odds'},
+        { key: '6', label: 'Previous race results', path: '/prev-results' },
+        { key: '7', label: accountBtn, path: '/'},
+    ];
+
+    const [selectedKey, setSelectedKey] =
+        useState(
+            siderLinks.find(
+                _link => location.pathname.startsWith(
+                    _link.path
+                )
+            ).key
+        );
+
+    const onClickMenu = (link) => {
+        const clicked = siderLinks.find(_link => _link.key === link.key)
+        navigation(clicked.path)
+    }
+
+    const menuFunctions = (link) => {
+        if(!matches){
+            setSiderKey(key => key + 1);
+        }
+        onClickMenu(link);
+    }
 
     useEffect(() => {
         window
         .matchMedia(('(min-width: 1200px)'))
         .addEventListener('change', e => setMatches(e.matches))
 
+        setSelectedKey(siderLinks.find(_link => location.pathname.startsWith(_link.path)).key)
+        
         if(!matches){
             setSiderWidth('calc(100vw - 32px)');
             setBalanceMeter('vertical-rl');
@@ -37,7 +73,7 @@ const PageLayout = () => {
             setAccountBtn('Login');
             setHiddenMeter('none');
         }
-    }, [state, matches]);
+    }, [state, matches, location]);
 
     return(
         <Layout style={{
@@ -48,6 +84,7 @@ const PageLayout = () => {
                 fontWeight: '500',
             }}>
             <Sider
+                key={siderKey}
                 breakpoint='xl'
                 collapsedWidth='0'
                 width={siderWidth}
@@ -76,14 +113,12 @@ const PageLayout = () => {
                         textAlign: 'center', 
                         fontSize: '20px',
                     }}
+                    onClick={menuFunctions}
+                    selectedKeys={[selectedKey]}
                 >
-                    <Menu.Item key='1'><Link to='/races'>Races</Link></Menu.Item>
-                    <Menu.Item key='2'><Link to='/create-race'>Create a race</Link></Menu.Item>
-                    <Menu.Item key='3'><Link to='/horses'>Horses</Link></Menu.Item>
-                    <Menu.Item key='4'><Link to='/tracks'>Tracks</Link></Menu.Item>
-                    <Menu.Item key='5'><Link to='/betting-odds'>Betting odds</Link></Menu.Item>
-                    <Menu.Item key='6'><Link to='/prev-results'>Previous results</Link></Menu.Item>
-                    <Menu.Item key='7'><Link to='/account'>{accountBtn}</Link></Menu.Item>
+                    {siderLinks.map((link) => (
+                        <Menu.Item key={link.key}>{link.label}</Menu.Item>
+                    ))}
                 </Menu>    
                 
                 <Footer style={{ 

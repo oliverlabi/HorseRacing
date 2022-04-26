@@ -6,17 +6,19 @@ import AccountPage from './pages/AccountPage';
 import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
 import HorsesPage from './pages/HorsesPage';
+import TracksPage from './pages/TracksPage';
 
 function App() {
   return (
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<PageLayout/>}>
-            <Route index element={<RacesPage />} />
+            <Route index element={<AccountPage />} />
+            <Route path='races' element={<RacesPage />} />
             <Route path='create-race' element={<CreateRacePage/>} />
-            <Route path='account' element={<AccountPage/>} />
-            <Route path='account/register' element={<RegistrationForm/>} />
+            <Route path='register' element={<RegistrationForm/>} />
             <Route path='horses' element={<HorsesPage/>} />
+            <Route path='tracks' element={<TracksPage/>} />
             <Route
                 path='*'
                 element={<Navigate to='/' replace />}

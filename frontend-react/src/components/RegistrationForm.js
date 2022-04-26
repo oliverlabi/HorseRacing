@@ -102,7 +102,7 @@ const RegistrationForm = () => {
                     </Button>
                 </Form.Item>
             </Form>
-            <p>Already have an account?<Link to="/account"> Log in</Link></p>
+            <p>Already have an account?<Link to="/"> Log in</Link></p>
         </div>
     )
     

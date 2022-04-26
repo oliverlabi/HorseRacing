@@ -14,7 +14,7 @@ const CreateRacePage = () => {
 
     useEffect(() => {
         if(state.auth.username == null) {
-            navigate('/account')
+            navigate('/')
         }
     }, []);
 
