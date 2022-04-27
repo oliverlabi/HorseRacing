@@ -1,9 +1,9 @@
 import './styles/TopUpButton.css';
 import BackendUrl from './BackendUrl';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Context } from '../store';
 import ErrorMessage from './ErrorMessage'
-import SuccessMessage from './SuccessMessage'
+import BalanceMessage from './BalanceMessage';
 import { addBalance } from '../store/actions';
 
 const TopUpButton = () => {
@@ -20,7 +20,7 @@ const TopUpButton = () => {
         }).then((response) => {
             if(response.ok){
                 dispatch(addBalance(state.auth.balance + 1));
-                SuccessMessage('+1')
+                BalanceMessage('+1')
             } else {
                 throw new Error('Error topping up balance!');
             }

@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.19.5",
     "craco-less": "^2.0.0",
+    "moment": "^2.29.3",
     "react": "^18.0.0",
     "react-combine-reducers": "^1.1.1",
     "react-dom": "^18.0.0",

@@ -5,7 +5,6 @@ import RacesPage from './pages/RacesPage';
 import AccountPage from './pages/AccountPage';
 import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
-import HorsesPage from './pages/HorsesPage';
 import TracksPage from './pages/TracksPage';
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
             <Route path='races' element={<RacesPage />} />
             <Route path='create-race' element={<CreateRacePage/>} />
             <Route path='register' element={<RegistrationForm/>} />
-            <Route path='horses' element={<HorsesPage/>} />
             <Route path='tracks' element={<TracksPage/>} />
             <Route
                 path='*'

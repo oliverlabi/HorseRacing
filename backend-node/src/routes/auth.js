@@ -1,7 +1,7 @@
 const router = require("express").Router()
-const authController = require("../controllers/auth");
-const validationMiddleware = require("../middleware/validationMiddleware");
-const { check } = require("express-validator");
+const authController = require("../controllers/auth")
+const validationMiddleware = require("../middleware/validationMiddleware")
+const { check } = require("express-validator")
 
 router.post(
     "/login",
@@ -32,20 +32,20 @@ router.post(
         .escape()
         .custom((value, { req }) => {
             if (value !== req.body.password) {
-                throw new Error('Password confirmation does not match password');
+                throw new Error('Password confirmation does not match password')
             }
 
-            return true;
+            return true
         })
     ],
     validationMiddleware,
     authController.signup
 );
 
-router.get("/:userName", authController.getUser);
+router.get("/:userName", authController.getUser)
 
-router.put("/modifyBalance/:userName", authController.modifyBalance);
+router.put("/modifyBalance/:userName", authController.modifyBalance)
 
-router.get("/checkBalance/:userName", authController.getBalance);
+router.get("/checkBalance/:userName", authController.getBalance)
 
-module.exports = router;
+module.exports = router

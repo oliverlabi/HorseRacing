@@ -22,11 +22,10 @@ const PageLayout = () => {
     const siderLinks = [
         { key: '1', label: 'Races', path: '/races' },
         { key: '2', label: 'Create a race', path: '/create-race' },
-        { key: '3', label: 'Horses', path: '/horses' },
-        { key: '4', label: 'Tracks', path: '/tracks' },
-        { key: '5', label: 'Betting odds', path: '/betting-odds'},
-        { key: '6', label: 'Previous race results', path: '/prev-results' },
-        { key: '7', label: accountBtn, path: '/'},
+        { key: '3', label: 'Tracks', path: '/tracks' },
+        { key: '4', label: 'Betting odds', path: '/betting-odds'},
+        { key: '5', label: 'Previous race results', path: '/prev-results' },
+        { key: '6', label: accountBtn, path: '/'},
     ];
 
     const [selectedKey, setSelectedKey] =
