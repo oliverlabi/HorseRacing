@@ -147,49 +147,6 @@ const CreateRacePage = () => {
                         disabledMinutes={getDisabledMinutes}
                     />
                 </Form.Item>
-                <Form.Item name="horsesGroup" label="Participating horses:"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Must check at least 2 boxes!'
-                        }
-                    ]}
-                >
-                    <Checkbox.Group style={{ lineHeight: '32px' }}>
-                    <Row>
-                        <Col span={8}>
-                        <Checkbox value='redHorse' style={{ color: 'red' }}>
-                            #11
-                        </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                        <Checkbox value='blueHorse' style={{ color: 'blue' }}>
-                            #97
-                        </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                        <Checkbox value='yellowHorse' style={{ color: '#948f04' }}>
-                            #22
-                        </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                        <Checkbox value='greenHorse' style={{ color: 'green' }}>
-                            #50
-                        </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                        <Checkbox value='purpleHorse' style={{ color: 'purple' }}>
-                            #74
-                        </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                        <Checkbox value='orangeHorse' style={{ color: 'orange' }}>
-                            #90
-                        </Checkbox>
-                        </Col>
-                    </Row>
-                    </Checkbox.Group>
-                </Form.Item>
                 <Form.Item {...buttonLayout}>
                         <Button type='primary' htmlType='submit' shape='round' >
                             Create

@@ -1,4 +1,4 @@
-import { RACE_ADD, RACE_REMOVE, RACE_UPDATE, USER_LOGIN, USER_LOGOUT } from "./actions";
+import { RACE_ADD, RACE_REMOVE, RACE_UPDATE, USER_LOGIN, USER_LOGOUT, ADD_BALANCE } from "./actions";
 
 const raceReducer = (state, action) => {
   switch(action.type){
@@ -37,6 +37,11 @@ const authReducer = (state, action) => {
         ...state,
         username: null,
         token: null
+      }
+    case ADD_BALANCE:
+      return {
+        ...state,
+        balance: action.payload
       }
     default:
       return state

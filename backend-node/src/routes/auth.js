@@ -46,4 +46,6 @@ router.get("/:userName", authController.getUser);
 
 router.put("/modifyBalance/:userName", authController.modifyBalance);
 
+router.get("/checkBalance/:userName", authController.getBalance);
+
 module.exports = router;

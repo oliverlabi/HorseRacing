@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../store';
 
 const { Content, Footer, Sider } = Layout;
 
 const PageLayout = () => {
-    const [state] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const location = useLocation()
     const navigation = useNavigate();
     const [accountBtn, setAccountBtn] = useState('');
@@ -17,6 +17,7 @@ const PageLayout = () => {
     const [matches, setMatches] = useState(
         window.matchMedia(('(min-width: 1200px)')).matches
     )
+    const [balance, setBalance] = useState(state.auth.balance);
 
     const siderLinks = [
         { key: '1', label: 'Races', path: '/races' },
@@ -52,10 +53,11 @@ const PageLayout = () => {
     useEffect(() => {
         window
         .matchMedia(('(min-width: 1200px)'))
-        .addEventListener('change', e => setMatches(e.matches))
+        .addEventListener('change', e => setMatches(e.matches));
 
-        setSelectedKey(siderLinks.find(_link => location.pathname.startsWith(_link.path)).key)
-        
+        setSelectedKey(siderLinks.find(_link => location.pathname.startsWith(_link.path)).key);
+        setBalance(state.auth.balance);
+
         if(!matches){
             setSiderWidth('calc(100vw - 32px)');
             setBalanceMeter('vertical-rl');
@@ -73,7 +75,7 @@ const PageLayout = () => {
             setAccountBtn('Login');
             setHiddenMeter('none');
         }
-    }, [state, matches, location]);
+    }, [state, matches, location, balance]);
 
     return(
         <Layout style={{
@@ -173,7 +175,7 @@ const PageLayout = () => {
                                 display: hideMeter
                             }}
                         >
-                            Balance: {state.auth.balance} c</h3></div>
+                            Balance: {balance} c</h3></div>
                     </div>
                 </Content>
             </Layout>

@@ -3,6 +3,7 @@ export const RACE_REMOVE = "RACE_REMOVE"
 export const RACE_UPDATE = "RACE_UPDATE"
 export const USER_LOGIN = "USER_LOGIN"
 export const USER_LOGOUT = "USER_LOGOUT"
+export const ADD_BALANCE = "ADD_BALANCE"
 
 export const addRace = race => ({
     type: RACE_ADD,
@@ -26,4 +27,9 @@ export const loginUser = data => ({
 
 export const logoutUser = data => ({
     type: USER_LOGOUT
+})
+
+export const addBalance = data => ({
+    type: ADD_BALANCE,
+    payload: data
 })

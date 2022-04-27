@@ -99,3 +99,17 @@ exports.modifyBalance = async (req, res) => {
         res.status(400).json({ error: e.message })
     }
 }
+
+exports.getBalance = async (req, res) => {
+    const { userName } = req.params
+    
+    try{
+        const data = await User.findOne({userName: userName})
+
+        if (!data) throw Error("Error finding user")
+
+        res.status(200).json(data.balance)
+    } catch (e) {
+        res.status(400).json({ error: e.message })
+    }
+}
