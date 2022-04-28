@@ -1,0 +1,73 @@
+.RaceBoxTitle{
+    grid-area: title;
+    text-align: left;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.RaceBoxDescription{
+    margin-top: -20px;
+    white-space: normal;
+    grid-area: description;
+    margin-bottom: 5;
+    text-align: left;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.RaceBoxCreatedBy{
+    grid-area: createdBy;
+    direction: rtl;
+    white-space: nowrap;
+}
+
+.RaceBoxHorses{
+    white-space: normal;
+    grid-area: horses;
+    text-align: left;
+    font-size: small;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.Horses{
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+
+.RaceBoxButton{
+    grid-area: btn;
+}
+
+.RaceBoxStartingTime{
+    white-space: normal;
+    grid-area: start;
+    font-size: small;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.RaceBoxBg{
+    display: grid;
+    white-space: nowrap;
+    height: 125px;
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    width: 100%;
+    padding: 5px;
+    grid-template-columns: 40% 30% 18% 12%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: 
+    "title title horses btn"
+    "description description start btn"
+    
+}
+

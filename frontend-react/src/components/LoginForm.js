@@ -58,10 +58,10 @@ function Login(){
                 autoComplete="off"
                 onFinish={onFinish}
                 wrapperCol={{
-                    span: 9,
+                    span: 16,
                 }}
                 labelCol={{
-                    span: 9,
+                    span: 8,
                 }}
             >
             <Form.Item
@@ -71,10 +71,6 @@ function Login(){
                 {
                     required: true,
                     message: 'Please input your username!',
-                },
-                {
-                    min: 5,
-                    message: 'Minimum length is 5',
                 },
                 ]}
             >
@@ -88,14 +84,6 @@ function Login(){
                     required: true,
                     message: 'Please input your password!',
                 },
-                {
-                    min: 6,
-                    message: 'Minimum length is 6 characters!',
-                },
-                {
-                    pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                    message: "Password must contain atleast: 1 lowercase letter, 1 uppercase letter, 1 number"
-                }
                 ]}
             >
                 <Input.Password/>

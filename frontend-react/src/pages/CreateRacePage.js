@@ -2,7 +2,7 @@ import '../App.less'
 import { useState, useContext, useEffect } from 'react';
 import { Context } from "../store";
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, DatePicker, Select, message, Col, Row } from 'antd';
+import { Form, Input, Button, DatePicker, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import BackendUrl from '../components/BackendUrl';
 import ErrorMessage from '../components/ErrorMessage';
@@ -30,7 +30,7 @@ const CreateRacePage = () => {
         if(state.auth.username == null) {
             navigate('/')
         }
-    }, [matches]);
+    }, [matches, selectedColors]);
 
     const onFinish = (values) => {
         var horseNamesArray = [];
@@ -72,7 +72,14 @@ const CreateRacePage = () => {
         });   
     }
 
-    const handleDropdownRemoval = (currentChoice) => {
+    function handleDynamicFieldRemoval(fieldName, removeFn){
+        setSelectedColors(currentColors => currentColors.filter((x, index, arr) => {
+            console.log(removeFn);
+            return index!==fieldName;
+        }));
+        removeFn(fieldName);
+    }
+    const handleDynamicDropdownColorRemoval = (currentChoice) => {
         setSelectedColors(currentColors => currentColors.concat(currentChoice));
     }
     
@@ -101,7 +108,7 @@ const CreateRacePage = () => {
     }
 
     return(
-        <div>
+        <div style={{minWidth: '100%'}}>
             <h1>Create a race</h1>
             <br/>
             <Form
@@ -166,7 +173,7 @@ const CreateRacePage = () => {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label='Starting time:'
+                    label='Starting time: '
                     name='startingTime'
                     rules={[
                         {
@@ -207,27 +214,28 @@ const CreateRacePage = () => {
                     ]}
                 >
                     {(fields, { add, remove }, { errors }) => ( 
-                    <div style={{paddingLeft: '10px'}} >
+                    <div style={{display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'center'}}>
                         {fields.map(field => (
-                        <Col>
                         <Form.Item
                             required={true}
                             key={field.key}
                         >   
-                        <>
                             <Form.Item
                                 {...field}
+                                style={{minWidth: '250px', marginBottom: 0}}
                                 name={[field.name, 'horse']}
                                 fieldKey={[field.fieldKey, 'horse']}
                                 validateTrigger={['onChange', 'onBlur']}
                                 rules={[
                                     {
-                                    required: true,
-                                    whitespace: true,
-                                    message: "Please input a name or delete this field!",
+                                        required: true,
+                                        message: "Please input a name or delete this field!",
                                     },
+                                    {
+                                        max: 14,
+                                        message: 'Maximum horse name length is 14 characters',
+                                    }
                                 ]}
-                                noStyle
                             >
                                 <Input placeholder="Input horse name"/>
                             </Form.Item>
@@ -238,7 +246,6 @@ const CreateRacePage = () => {
                                     rules={[
                                         {
                                         required: true,
-                                        whitespace: true,
                                         message: "Please choose a color or delete this field!",
                                         },
                                     ]}
@@ -247,13 +254,13 @@ const CreateRacePage = () => {
                                         <Select 
                                             placeholder='Color' 
                                             value={selectedColors}
-                                            onChange={handleDropdownRemoval}
+                                            onChange={handleDynamicDropdownColorRemoval}
                                             style={{fontWeight: '400'}}
                                         >
                                             {filteredOptions.map(item => (
                                                 <Select.Option key={item} value={item}>
-                                                {item}
-                                            </Select.Option>
+                                                    {item}
+                                                </Select.Option>
                                             ))}
                                         </Select>
                                 </Form.Item>
@@ -261,17 +268,12 @@ const CreateRacePage = () => {
                             <MinusCircleOutlined
                                 style={{paddingLeft: '5px'}}
                                 className="dynamic-delete-button"
-                                onClick={() => remove(field.name)}
+                                onClick={() => handleDynamicFieldRemoval(field.name, remove)}
                             />
                             ) : null}
-                        </>
                         </Form.Item>
-                        
-                        </Col>
                         ))}
-                        
-                        
-                        
+
                         {fields.length < 6 ? (
                         <Form.Item>
                             <Button
@@ -281,11 +283,10 @@ const CreateRacePage = () => {
                             >
                                 Add a horse
                             </Button>
-                            <Form.ErrorList errors={errors} />
+                            <Form.ErrorList errors={errors}/>
                         </Form.Item>
                         ) : null}
-                        
-                        
+
                     </div>
                     )}
                 </Form.List>

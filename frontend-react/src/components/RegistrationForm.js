@@ -34,10 +34,10 @@ const RegistrationForm = () => {
             autoComplete="off"
             onFinish={onFinish}
             wrapperCol={{
-                span: 9,
+                span: 14,
             }}
             labelCol={{
-                span: 9,
+                span: 10,
             }}
         >
                 <Form.Item
@@ -68,10 +68,6 @@ const RegistrationForm = () => {
                         min: 6,
                         message: 'Minimum length is 6 characters!',
                     },
-                    {
-                        pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                        message: "Password must contain atleast: 1 lowercase letter, 1 uppercase letter, 1 number"
-                    }
                     ]}
                 >
                     <Input.Password/>
@@ -88,10 +84,6 @@ const RegistrationForm = () => {
                         min: 6,
                         message: 'Minimum length is 6 characters!',
                     },
-                    {
-                        pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                        message: "Password must contain atleast: 1 lowercase letter, 1 uppercase letter, 1 number"
-                    }
                     ]}
                 >
                     <Input.Password/>
