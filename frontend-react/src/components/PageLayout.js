@@ -151,13 +151,13 @@ const PageLayout = () => {
                         {!matches && (
                         <div className='purpleBar'
                             style={{
+                                display: 'flex',
                                 width: '36px', 
                                 height: '100vh', 
                                 backgroundColor: '#990AE3', 
                                 position: 'fixed', 
                                 top: 0, 
                                 marginLeft: -40,
-                                display: 'flex',
                             }}/>)}
                         </div>
                     </Content>

@@ -3,8 +3,8 @@ import MoneyCollectOutlined from '@ant-design/icons'
 
 const BalanceMessage = (balanceMessage) => {
     const config = {
+        maxCount: 4,
         content: balanceMessage,
-        maxCount: 4
     }
 
     return(message.success(config));

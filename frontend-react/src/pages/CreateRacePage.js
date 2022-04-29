@@ -1,5 +1,5 @@
 import '../App.less'
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Context } from "../store";
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, DatePicker, Select } from 'antd';
@@ -8,28 +8,37 @@ import BackendUrl from '../components/BackendUrl';
 import ErrorMessage from '../components/ErrorMessage';
 import SuccessMessage from '../components/SuccessMessage';
 import moment from 'moment';
+import LoginPromptMessage from '../components/LoginPromptMessage';
 
 const CreateRacePage = () => {
     const [state] = useContext(Context);
     const [currentDate, setCurrentDate] = useState(moment());
+    const [dynamicBtnMarginLeft, setDynamicBtnMarginLeft] = useState('37.5%')
     const [matches, setMatches] = useState(
-        window.matchMedia(('(min-width: 1200px)')).matches
+        window.matchMedia(('(min-width: 576px)')).matches
     )
     const { TextArea } = Input;
     const COLORS = ['Red', 'Blue', 'Green', 'Yellow', 'White', 'Black'];
     const [selectedColors, setSelectedColors] = useState([]);
     const filteredOptions = COLORS.filter(o => !selectedColors.includes(o));
+    const refOption = useRef();
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        window
-        .matchMedia(('(min-width: 1200px)'))
-        .addEventListener('change', e => setMatches(e.matches));
-
         if(state.auth.username == null) {
+            LoginPromptMessage();
             navigate('/')
         }
+        window
+        .matchMedia(('(min-width: 576px)'))
+        .addEventListener('change', e => setMatches(e.matches));
+        if(!matches){
+            setDynamicBtnMarginLeft('auto')
+        } else {
+            setDynamicBtnMarginLeft('37.5%')
+        }
+
     }, [matches, selectedColors]);
 
     const onFinish = (values) => {
@@ -74,13 +83,15 @@ const CreateRacePage = () => {
 
     function handleDynamicFieldRemoval(fieldName, removeFn){
         setSelectedColors(currentColors => currentColors.filter((x, index, arr) => {
-            console.log(removeFn);
             return index!==fieldName;
         }));
         removeFn(fieldName);
     }
-    const handleDynamicDropdownColorRemoval = (currentChoice) => {
+
+    function handleDynamicDropdownColorRemoval(currentChoice, arr) {
+        console.log(currentChoice, arr.index);
         setSelectedColors(currentColors => currentColors.concat(currentChoice));
+        
     }
     
     const getDisabledHours = () => {
@@ -126,7 +137,7 @@ const CreateRacePage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Fields must not be empty!',
+                            message: 'Field must not be empty!',
                             
                         },
                         {
@@ -143,7 +154,7 @@ const CreateRacePage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Fields must not be empty!',
+                            message: 'Field must not be empty!',
                             
                         },
                         {
@@ -161,7 +172,7 @@ const CreateRacePage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Fields must not be empty!',
+                            message: 'Field must not be empty!',
                         }
                     ]}
                 >
@@ -178,7 +189,7 @@ const CreateRacePage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Fields must not be empty!',
+                            message: 'Field must not be empty!',
                         }
                     ]}
                 >
@@ -193,7 +204,7 @@ const CreateRacePage = () => {
                         disabledMinutes={getDisabledMinutes}
                     />
                 </Form.Item>
-                <h2>Participating horses</h2>
+                <h2 style={{marginBottom:'24px'}}>Participating horses</h2>
                 <Form.List
                     name="participatingHorses"
                     rules={[
@@ -206,7 +217,7 @@ const CreateRacePage = () => {
                     },
                     {
                         validator: async (_, names) => {
-                        if (names.length > 6) {
+                        if (names && names.length > 6) {
                             return Promise.reject(new Error('Maximum 6 horses!'));
                         }
                         },
@@ -214,59 +225,63 @@ const CreateRacePage = () => {
                     ]}
                 >
                     {(fields, { add, remove }, { errors }) => ( 
-                    <div style={{display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'center'}}>
-                        {fields.map(field => (
-                        <Form.Item
+                    <div>
+                        {fields.map((field, index) => (
+                        <Form.Item style={{display: 'flex', justifyContent: 'center', alignContent: 'flex-start', marginBottom: '24px'}}
                             required={true}
                             key={field.key}
-                        >   
+                        >
                             <Form.Item
                                 {...field}
-                                style={{minWidth: '250px', marginBottom: 0}}
                                 name={[field.name, 'horse']}
                                 fieldKey={[field.fieldKey, 'horse']}
                                 validateTrigger={['onChange', 'onBlur']}
                                 rules={[
                                     {
                                         required: true,
+                                        whitespace: true,
                                         message: "Please input a name or delete this field!",
                                     },
                                     {
-                                        max: 14,
+                                        max: 20,
                                         message: 'Maximum horse name length is 14 characters',
                                     }
                                 ]}
+                                noStyle
                             >
-                                <Input placeholder="Input horse name"/>
+                                <Input placeholder="Input horse name" style={{width: '60%'}}/>
                             </Form.Item>
-                                <Form.Item
-                                    validateTrigger={['onChange', 'onBlur']}
-                                    name={[field.name, 'color']}
-                                    fieldKey={[field.fieldKey, 'color']}
-                                    rules={[
-                                        {
-                                        required: true,
-                                        message: "Please choose a color or delete this field!",
-                                        },
-                                    ]}
-                                    noStyle
-                                >
-                                        <Select 
-                                            placeholder='Color' 
-                                            value={selectedColors}
-                                            onChange={handleDynamicDropdownColorRemoval}
-                                            style={{fontWeight: '400'}}
-                                        >
-                                            {filteredOptions.map(item => (
-                                                <Select.Option key={item} value={item}>
-                                                    {item}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>
-                                </Form.Item>
-                            {fields.length > 1 ? (
+
+                            <Form.Item
+                                validateTrigger={['onChange', 'onBlur']}
+                                name={[field.name, 'color']}
+                                fieldKey={[field.fieldKey, 'color']}
+                                rules={[
+                                    {
+                                    required: true,
+                                    whitespace: true,
+                                    message: "Please choose a color or delete this field!",
+                                    },
+                                ]}
+                                noStyle
+                            >
+                                    <Select 
+                                        placeholder='Color' 
+                                        value={selectedColors}
+                                        onChange={(e, arr) => handleDynamicDropdownColorRemoval(e, arr, index)}
+                                        style={{fontWeight: '400', width: '30%'}}
+                                    >
+                                        {filteredOptions.map((item) => (
+                                            <Select.Option key={item} value={item} index={index} ref={refOption}>
+                                                {item}
+                                            </Select.Option>
+                                            
+                                        ))}
+                                    </Select>
+                            </Form.Item>                    
+                            {fields.length > 1? (
                             <MinusCircleOutlined
-                                style={{paddingLeft: '5px'}}
+                                style={{paddingLeft: '5px', width: '10%'}}
                                 className="dynamic-delete-button"
                                 onClick={() => handleDynamicFieldRemoval(field.name, remove)}
                             />
@@ -275,7 +290,7 @@ const CreateRacePage = () => {
                         ))}
 
                         {fields.length < 6 ? (
-                        <Form.Item>
+                        <Form.Item style={{marginLeft: dynamicBtnMarginLeft}}>
                             <Button
                                 type="dashed"
                                 onClick={() => add()}
@@ -290,7 +305,7 @@ const CreateRacePage = () => {
                     </div>
                     )}
                 </Form.List>
-                <Form.Item wrapperCol={matches && ({offset: 0}) || !matches && ({offset: 0})}>
+                <Form.Item wrapperCol={{offset: 0}}>
                     <Button type='primary' htmlType='submit' shape='round'>
                         Create
                     </Button>
