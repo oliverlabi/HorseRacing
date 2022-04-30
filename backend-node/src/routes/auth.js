@@ -22,16 +22,13 @@ router.post(
     [
         check("userName")
         .isLength({ minLength: 5 })
-        .withMessage("Must be at least 5 characters long")
-        .trim()
-        .exists(),
+        .withMessage("Must be at least 5 characters long"),
         check("password")
-        .isStrongPassword({minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 0})
-        .withMessage("The password is not strong enough"),
-        check("passwordConfirmation")
+        .trim()
+        .exists()
         .escape()
         .custom((value, { req }) => {
-            if (value !== req.body.password) {
+            if (value !== req.body.passwordConfirmation) {
                 throw new Error('Password confirmation does not match password')
             }
 
