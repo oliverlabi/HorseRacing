@@ -6,6 +6,7 @@ import BackendUrl from '../components/BackendUrl'
 import ErrorMessage from '../components/ErrorMessage'
 import RaceBox from '../components/RaceBox';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const RacesPage = () => {
     const [state, dispatch] = useContext(Context);
@@ -25,8 +26,15 @@ const RacesPage = () => {
                 }
             })
             .then(data => {
-                dispatch(updateRace(data));
-                setRaces(data);
+                var tempArray = [];
+                for(var i = 0; i < data.length; i++){
+                    if(moment().isBefore(moment(data[i].startingTime))){
+                        tempArray.push(data[i]);
+                    }
+                }
+                dispatch(updateRace(tempArray));
+                setRaces(tempArray);
+                
             })
             .catch(error => {
                 ErrorMessage(error.toString());

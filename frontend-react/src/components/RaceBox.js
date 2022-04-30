@@ -1,4 +1,4 @@
-import { Button, Modal, Select, Form, Input } from "antd";
+import { Button, Modal, Select, Form, Input, InputNumber } from "antd";
 import { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import './styles/RaceBox.css'
@@ -14,6 +14,7 @@ const RaceBox = () => {
     const [isModalVisible, setIsModalVisible] = useState();
     const [raceBoxIndex, setRaceBoxIndex] = useState(0);
     const [betBtnMinWidth, setBetBtnMinWidth] = useState('60px');
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const [matches, setMatches] = useState(
         window.matchMedia(('(min-width: 700px)')).matches
@@ -33,8 +34,6 @@ const RaceBox = () => {
             setBetTextMargin('auto');
             setBetBtnMinWidth('60px');
         }
-
-        console.log(state.races.data);
     }, [matches])
 
     function onClick(index){
@@ -48,12 +47,23 @@ const RaceBox = () => {
         
     }
 
-    const onBet = () => {
-        setIsModalVisible(false);
+    const onFinish = (values) => {
+        console.log(values);
+        //setIsModalVisible(false);
     }
 
     const onCancel = () => {
+        form.resetFields();
         setIsModalVisible(false);
+    }
+
+    function modalTitle(state){
+        return (
+            <>
+                <p>{state.races.data[raceBoxIndex].raceName}</p>
+                <p style={{fontSize: 'small', marginTop: '-10px', marginBottom: '-10px', fontWeight: 'normal'}}>Created by: {state.races.data[raceBoxIndex].createdBy}</p>
+            </>
+        )
     }
 
     return(
@@ -78,16 +88,17 @@ const RaceBox = () => {
                     </Button>
                 </div>
             ))}
-            <Modal title={state.races.data[raceBoxIndex].raceName} visible={isModalVisible} footer={null} onCancel={onCancel}
+            <Modal title={modalTitle(state)} visible={isModalVisible} footer={null} onCancel={onCancel}
                 style={{
                     textAlign: 'center',
-                    borderRadius: '20px',
                 }}
             >
+                
                 <p>{state.races.data[raceBoxIndex].raceDescription}</p>
                 <p>Track: {ConvertTrackName(state.races.data[raceBoxIndex].raceTrack)}</p>
                 <p>Start: {moment(state.races.data[raceBoxIndex].startingTime).format('hh:ss DD.MM.YYYY')}</p>
                 <Form
+                    form={form}
                     wrapperCol={{
                         span: 14,
                     }}
@@ -95,28 +106,30 @@ const RaceBox = () => {
                         span: 6,
                     }}
                     id='bettingForm'
+                    onFinish={onFinish}
                 >
-                        <Form.Item
-                            label='Horse: '
-                            name='horseChoice'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'You must choose a horse!',
-                                }
-                            ]}
-                        >
-                            <Select placeholder='Choose a horse' style={{fontWeight: '400'}}>
-                                {state.races.data[raceBoxIndex].participatingHorses.map((item, index) => (
-                                    <Select.Option key={item + index} value={item}>
-                                        {'Name: ' + item + ', Color: ' + state.races.data[raceBoxIndex].horseColors[index]}
-                                    </Select.Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
+                    <Form.Item
+                        label='Horse: '
+                        name='horseChoice'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'You must choose a horse!',
+                            }
+                        ]}
+                    >
+                        <Select placeholder='Choose a horse' style={{fontWeight: '400'}}>
+                            {state.races.data[raceBoxIndex].participatingHorses.map((item, index) => (
+                                <Select.Option key={item + index} value={item}>
+                                    {'Name: ' + item + ', Color: ' + state.races.data[raceBoxIndex].horseColors[index]}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
                     <Form.Item
                         label='Amount: '
                         name='raceBet'
+                        type='number'
                         rules={[
                             {
                                 required: true,
@@ -125,13 +138,13 @@ const RaceBox = () => {
                             },
                         ]}
                     >
-                        <Input/>
+                        <InputNumber style={{width: '100%'}} min='0' max={state.auth.balance}/>
                     </Form.Item>
                     <Form.Item wrapperCol={matches && ({offset: 0}) || !matches && ({offset: 0})}>
-                        <Button type='primary' htmlType='submit' shape='round' onClick={onBet}>
+                        <Button type='primary' htmlType='submit' shape='round'>
                             BET
                         </Button>
-                </Form.Item>
+                    </Form.Item>
                 </Form>
             </Modal>
         </div>

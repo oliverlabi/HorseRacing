@@ -50,7 +50,8 @@ const CreateRacePage = () => {
             horseColorsArray.push(values.participatingHorses[i].color)
         }
 
-        var formattedTime = moment(values.startingTime).format('YYYY/MM/DD hh:mm')
+        console.log(values.startingTime);
+        var formattedTime = moment(values.startingTime).format('YYYY/MM/DD HH:mm')
 
         console.log(formattedTime);
         const raceCreationAttempt = {

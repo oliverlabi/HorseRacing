@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {Form, Input, Button} from 'antd';
+import {Form, Input, Button } from 'antd';
 import BackendUrl from './BackendUrl';
 import SuccessMessage from './SuccessMessage';
 import ErrorMessage from './ErrorMessage';
@@ -8,7 +8,10 @@ const RegistrationForm = () => {
     const navigate = useNavigate();
 
     const onFinish = (values) => {
-        fetch(BackendUrl + 'api/auth/signup', {
+        if(values.password != values.passwordConfirmation){
+            ErrorMessage('Passwords must match!')
+        } else {
+            fetch(BackendUrl + 'api/auth/signup', {
                 method: "POST",
                 body: JSON.stringify(values),
                 headers: {"Content-Type":"application/json"}
@@ -17,11 +20,13 @@ const RegistrationForm = () => {
                     SuccessMessage("Account successfully created!");
                     return navigate("/account");
                 } else {
-                    throw new Error("Error signing up!");
+                    throw new Error('Error creating an account!')
                 }
             }).catch(error => {
                 ErrorMessage(error);
             });
+        }
+        
 
     }
 
