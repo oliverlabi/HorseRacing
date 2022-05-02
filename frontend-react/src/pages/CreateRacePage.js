@@ -50,10 +50,8 @@ const CreateRacePage = () => {
             horseColorsArray.push(values.participatingHorses[i].color)
         }
 
-        console.log(values.startingTime);
         var formattedTime = moment(values.startingTime).format('YYYY/MM/DD HH:mm')
 
-        console.log(formattedTime);
         const raceCreationAttempt = {
             raceName: values.raceName,
             raceDescription: values.raceDescription,
@@ -64,7 +62,6 @@ const CreateRacePage = () => {
             userName: state.auth.username,
         }
 
-        console.log(JSON.stringify(raceCreationAttempt));
 
         return fetch(BackendUrl + "api/race/create",{
             method: "POST",
@@ -90,7 +87,6 @@ const CreateRacePage = () => {
     }
 
     function handleDynamicDropdownColorRemoval(currentChoice, arr) {
-        console.log(currentChoice, arr.index);
         setSelectedColors(currentColors => currentColors.concat(currentChoice));
         
     }

@@ -4,17 +4,16 @@ import { Context } from '../store';
 import { updateRace } from '../store/actions';
 import BackendUrl from '../components/BackendUrl'
 import ErrorMessage from '../components/ErrorMessage'
-import RaceBox from '../components/RaceBox';
+import RaceBoxWithModal from '../components/RaceBoxWithModal';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const RacesPage = () => {
     const [state, dispatch] = useContext(Context);
-    const [races, setRaces] = useState([]);
 
     useEffect(() => {
         getRaces();
-    }, [])
+    }, [RaceBoxWithModal])
 
     async function getRaces(){
         fetch(BackendUrl + 'api/race/all')
@@ -28,17 +27,26 @@ const RacesPage = () => {
             .then(data => {
                 var tempArray = [];
                 for(var i = 0; i < data.length; i++){
-                    if(moment().isBefore(moment(data[i].startingTime))){
+                    if(checkIfActiveBet(data[i], i) || moment().isBefore(moment(data[i].startingTime))){
                         tempArray.push(data[i]);
                     }
                 }
                 dispatch(updateRace(tempArray));
-                setRaces(tempArray);
                 
             })
             .catch(error => {
                 ErrorMessage(error.toString());
         });
+    }
+
+    const checkIfActiveBet = (data) => {
+        if(state.auth.bets != undefined && moment().isAfter(moment(data.startingTime))){
+            const filteredBet = state.auth.bets.filter(el => el.raceID == data.raceID && el.active == true);
+            if(filteredBet.length != 0){
+                return true;
+            }
+        }
+        return false;
     }
 
     const checkEmptyState = () => {
@@ -47,7 +55,7 @@ const RacesPage = () => {
         } else {
             return(
                 <div>
-                    <RaceBox></RaceBox>
+                    <RaceBoxWithModal></RaceBoxWithModal>
                 </div>
             )
         }

@@ -6,6 +6,7 @@ import AccountPage from './pages/AccountPage';
 import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
 import TracksPage from './pages/TracksPage';
+import ResultsPage from './pages/ResultsPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route index element={<AccountPage />} />
             <Route path='races' element={<RacesPage />} />
             <Route path='create-race' element={<CreateRacePage/>} />
+            <Route path='prev-results' element={<ResultsPage/>} />
             <Route path='register' element={<RegistrationForm/>} />
             <Route path='tracks' element={<TracksPage/>} />
             <Route

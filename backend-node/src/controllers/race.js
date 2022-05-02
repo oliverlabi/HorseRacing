@@ -57,6 +57,10 @@ exports.createBet = async (req, res) => {
 
     if(JSON.stringify(checkBets) != '[]') throw Error("Bet already exists for that race!");
     
+    const deductBalance = await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance - amount})
+    
+    if(!deductBalance) throw Error("Error deducting balance")
+
     const addBetDataToUser = await User.findOneAndUpdate({userName: userName}, { $push: { 
       bets: {
         raceID: raceID,
@@ -104,13 +108,11 @@ exports.endBet = async (req, res) => {
 
     const balanceCheck = await User.findOne({userName: userName}, {_id: 0, balance: 1})
 
-    if(checkWinningHorse.winningHorse != parsedData.horse){
-      await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance - parsedData.amount})
-    } else {
+    if(checkWinningHorse.winningHorse == parsedData.horse){
       await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance + parsedData.amount})
     }
 
-    res.status(200).json({ message: "Bet successfully ended!" })
+    res.status(200).res(balanceCheck.balance + parsedData.amount)
   } catch (e){
     res.status(400).json({ error: e.message })
   }

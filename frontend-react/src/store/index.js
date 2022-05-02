@@ -9,7 +9,8 @@ const initialRaces = {
 const initialAuth = {
     username: null,
     token: null,
-    balance: null
+    balance: null,
+    bets: null
 }
 
 const [combinedReducer, initialState] = combineReducers({

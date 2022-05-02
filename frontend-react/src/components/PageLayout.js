@@ -24,7 +24,7 @@ const PageLayout = () => {
         { key: '2', label: 'Create a race', path: '/create-race' },
         { key: '3', label: 'Tracks', path: '/tracks' },
         { key: '4', label: 'Betting odds', path: '/betting-odds'},
-        { key: '5', label: 'Previous race results', path: '/prev-results' },
+        { key: '5', label: 'Race results', path: '/prev-results' },
         { key: '6', label: accountBtn, path: '/'},
     ];
 

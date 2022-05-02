@@ -40,7 +40,9 @@ function Login(){
             const loginState = {
                 username: loginAttempt.userName,
                 token: data.password,
-                balance: data.balance
+                balance: data.balance,
+                bets: data.bets
+
             }
             dispatch(loginUser(loginState));
             SuccessMessage('Successful login!');

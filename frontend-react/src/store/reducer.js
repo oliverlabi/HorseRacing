@@ -1,4 +1,4 @@
-import { RACE_ADD, RACE_REMOVE, RACE_UPDATE, USER_LOGIN, USER_LOGOUT, ADD_BALANCE } from "./actions";
+import { RACE_ADD, RACE_REMOVE, RACE_UPDATE, USER_LOGIN, USER_LOGOUT, ADD_BALANCE, USER_BET } from "./actions";
 
 const raceReducer = (state, action) => {
   switch(action.type){
@@ -14,10 +14,10 @@ const raceReducer = (state, action) => {
       }
     case RACE_UPDATE:
       const newData = [];
-        return {
-          ...state,
-          data: newData.concat(action.payload)
-        }
+      return {
+        ...state,
+        data: newData.concat(action.payload)
+      }
     default:
       return state;
   }
@@ -30,7 +30,8 @@ const authReducer = (state, action) => {
         ...state,
         username: action.payload.username,
         token: action.payload.token,
-        balance: action.payload.balance
+        balance: action.payload.balance,
+        bets: action.payload.bets
       }
     case USER_LOGOUT:
       return {
@@ -42,6 +43,12 @@ const authReducer = (state, action) => {
       return {
         ...state,
         balance: action.payload
+      }
+    case USER_BET:
+      const newData = [];
+      return {
+        ...state,
+        bets: newData.concat(action.payload)
       }
     default:
       return state

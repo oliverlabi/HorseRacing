@@ -3,11 +3,12 @@ export const RACE_REMOVE = "RACE_REMOVE"
 export const RACE_UPDATE = "RACE_UPDATE"
 export const USER_LOGIN = "USER_LOGIN"
 export const USER_LOGOUT = "USER_LOGOUT"
+export const USER_BET = "USER_BET"
 export const ADD_BALANCE = "ADD_BALANCE"
 
-export const addRace = race => ({
+export const addRace = data => ({
     type: RACE_ADD,
-    payload: race
+    payload: data
 })
 
 export const removeRace = id => ({
@@ -15,9 +16,9 @@ export const removeRace = id => ({
     payload: id
 })
 
-export const updateRace = race => ({
+export const updateRace = data => ({
     type: RACE_UPDATE,
-    payload: race
+    payload: data
 })
 
 export const loginUser = data => ({
@@ -25,7 +26,12 @@ export const loginUser = data => ({
     payload: data
 })
 
-export const logoutUser = data => ({
+export const updateBets = data => ({
+    type: USER_BET,
+    payload: data
+})
+
+export const logoutUser = () => ({
     type: USER_LOGOUT
 })
 
