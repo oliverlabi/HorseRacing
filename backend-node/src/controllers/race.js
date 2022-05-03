@@ -102,6 +102,12 @@ exports.endBet = async (req, res) => {
 
     if(!checkWinningHorse) throw Error("Error finding the winning horse!")
 
+    const checkIfActive = await User.findOne({userName: userName, "bets.raceID": raceID}, {_id: 0, "bets.$": 1})
+
+    const parsedCheckIfActive = JSON.parse(JSON.stringify(checkIfActive.bets[0]))
+
+    if(parsedCheckIfActive.active == false) throw Error("Bet has already been concluded!")
+
     const addBetDataToUser = await User.findOneAndUpdate({userName: userName, "bets.raceID": raceID}, { $set: { 
       "bets.$.active": false}})
 
@@ -109,12 +115,14 @@ exports.endBet = async (req, res) => {
 
     const balanceCheck = await User.findOne({userName: userName}, {_id: 0, balance: 1})
 
+
+
     if(checkWinningHorse.winningHorse == parsedData.horse){
       await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance + (parsedData.amount * (horseCount))})
       res.status(200).json(balanceCheck.balance + (parsedData.amount * horseCount))
     } else {
       const balanceData = await User.findOne({userName: userName}, {_id: 0, balance: 1})
-      res.status(200).json(balanceData)
+      res.status(200).json(balanceData.balance)
     }
 
   } catch (e){

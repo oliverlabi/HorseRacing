@@ -62,37 +62,43 @@ const RaceBoxWithModal = ({stateChanger}) => {
     }
 
     const onBet = (values, raceID) => { //on modal Bet button click
-        const betValues = {
-            userName: state.auth.username,
-            horse: values.horseChoice,
-            amount: values.raceBet
-        };
-
-        const newActiveBet = {
-            raceID: raceID,
-            horse: values.horseChoice,
-            amount: values.raceBet,
-            active: true,
-        }
-
-        var currentBets = state.auth.bets;
-        currentBets.push(newActiveBet);
-
-        fetch(BackendUrl + 'api/race/createBet/' + raceID,{
-            method: "PUT",
-            body: JSON.stringify(betValues),
-            headers: {"Content-Type":"application/json"}
-        }).then((response) => {
-            if(response.ok){
-                SuccessMessage('Bet was successful!')
-                dispatch(updateBets(currentBets));
-                dispatch(addBalance(state.auth.balance - values.raceBet));
-                increment();
+        const raceIndex = state.races.data.findIndex(e => e.raceID == raceID);
+        if(moment(state.races.data[raceIndex].startingTime).isAfter(moment())){
+            const betValues = {
+                userName: state.auth.username,
+                horse: values.horseChoice,
+                amount: values.raceBet
+            };
+    
+            const newActiveBet = {
+                raceID: raceID,
+                horse: values.horseChoice,
+                amount: values.raceBet,
+                active: true,
             }
-        }).catch(error => {
-            ErrorMessage(error);
-        });
-
+    
+            var currentBets = state.auth.bets;
+            currentBets.push(newActiveBet);
+    
+            fetch(BackendUrl + 'api/race/createBet/' + raceID,{
+                method: "PUT",
+                body: JSON.stringify(betValues),
+                headers: {"Content-Type":"application/json"}
+            }).then((response) => {
+                if(response.ok){
+                    SuccessMessage('Bet was successful!')
+                    dispatch(updateBets(currentBets));
+                    dispatch(addBalance(state.auth.balance - values.raceBet));
+                    increment();
+                }
+            }).catch(error => {
+                ErrorMessage(error);
+            });
+        } else {
+            ErrorMessage('Betting has already ended for this race!');
+            stateChanger(e => e + 1);
+        }
+        
         setIsModalVisible(false);
     }
 
@@ -144,13 +150,12 @@ const RaceBoxWithModal = ({stateChanger}) => {
             }).then((data) => {
                 setIsModalVisible(false);
                 const prevBalance = state.auth.balance;
-                const newBalance = JSON.parse(JSON.stringify(data));
-                if(newBalance <= prevBalance){
+                if(data <= prevBalance){
                     ErrorMessage('You lost!');
                 } else {
                     SuccessMessage('You win!');
                 }
-                dispatch(addBalance(newBalance.balance));
+                dispatch(addBalance(data));
                 dispatch(updateBets(filteredBets));
                 stateChanger(e => e + 1);
                 increment();

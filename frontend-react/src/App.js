@@ -7,6 +7,7 @@ import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
 import TracksPage from './pages/TracksPage';
 import ResultsPage from './pages/ResultsPage';
+import BettingOddsPage from './pages/BettingOdds';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='prev-results' element={<ResultsPage/>} />
             <Route path='register' element={<RegistrationForm/>} />
             <Route path='tracks' element={<TracksPage/>} />
+            <Route path='betting-odds' element={<BettingOddsPage/>} />
             <Route
                 path='*'
                 element={<Navigate to='/' replace />}

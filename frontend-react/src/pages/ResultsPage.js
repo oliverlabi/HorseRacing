@@ -27,9 +27,24 @@ const ResultsPage = () => {
         });
       }, [])
 
+    const userBets = (row, index, option) => {
+      if(state.auth.bets != undefined && state.auth.bets.some(el => el.raceID == row.raceID)){
+        const betIndex = state.auth.bets.findIndex(e => e.raceID == row.raceID);
+        if(option == 0){
+          return state.auth.bets[betIndex].horse;
+        } else {
+          return state.auth.bets[betIndex].horse + ', ' + state.auth.bets[betIndex].amount + ' c';
+        }
+        
+      } else {
+        return "No bet";
+      }
+    }
+
     let rows;
     if(state.races.data !== undefined){
-        const iteratedData = state.races.data.map(row => ({
+        const iteratedData = state.races.data.map((row, index) => ({
+            status: userBets(row, index, 0),
             key: row._id,
             raceName: row.raceName,
             raceDescription: row.raceDescription,
@@ -38,7 +53,8 @@ const ResultsPage = () => {
             participatingHorses: row.participatingHorses,
             horseColors: row.horseColors,
             winningHorse: row.winningHorse,
-            createdBy: row.createdBy
+            createdBy: row.createdBy,
+            userBet: userBets(row, index, 1)
         }))
     
         rows = [
@@ -52,67 +68,125 @@ const ResultsPage = () => {
         {
           title: 'Name',
           dataIndex: 'raceName',
+          width: 100,
           key: 'raceName',
+          fixed: 'left',
+          render(name){
+            return(<p>{name}</p>)
+          }
+        },
+        
+        {
+          title: 'Status',
+          dataIndex: 'status',
+          width: 100,
+          key: 'status',
+          fixed: 'left',
+          render(horse, index){
+            if(horse == index.winningHorse){
+              return(<p style={{color: 'Green'}}>Won</p>)
+            } else if (horse == "No bet"){
+              return(<p style={{color: 'Black'}}>No bet!</p>)
+            } else if (index.winningHorse == undefined){
+              return(<p style={{color: 'Orange'}}>Ongoing</p>)
+            } else {
+              return(<p style={{color: 'Red'}}>Lost</p>)
+            }
+          }
         },
         {
           title: 'Description',
           dataIndex: 'raceDescription',
+          width: 100,
           key: 'raceDescription',
+          render(desc){
+            return(<p>{desc}</p>)
+          }
         },
         {
           title: 'Track',
           dataIndex: 'raceTrack',
           key: 'raceTrack',
+          width: 75,
+          render(track){
+            return(<p>{track}</p>)
+          }
         },
         {
           title: 'Participating horses',
           key: 'participatingHorses',
           dataIndex: 'participatingHorses',
+          width: 100,
           render(horse, index) {
-              let horseHTML = [];
-              for(var i=0; i<horse.length; i++){
-                horseHTML.push(<p key={horse[i]} style={{ color: index.horseColors[i], margin: 0}}>{horse[i]}</p>);
-              }
-              return (
-                <>
-                {horseHTML}
-                </>
-              );
+            let horseHTML = [];
+            for(var i=0; i<horse.length; i++){
+              horseHTML.push(<p key={horse[i]} style={{ color: index.horseColors[i], margin: 0}}>{horse[i]}</p>);
+            }
+            return (
+              <>
+              {horseHTML}
+              </>
+            );
           }
         },
         {
-            title: 'Winner',
-            key: 'winningHorse',
-            dataIndex: 'winningHorse',
-            render(horse){
-                if(horse == undefined){
-                    return 'No result!'
-                } else {
-                    return horse
-                }
+          title: 'Winner',
+          key: 'winningHorse',
+          dataIndex: 'winningHorse',
+          width: 75,
+          render(horse){
+            if(horse == undefined){
+                return <p>No results yet!</p>
+            } else {
+                return <p>{horse}</p>
             }
+          }
         },
         {
-            title: 'Creator',
-            key: 'createdBy',
-            dataIndex: 'createdBy',
-        },
-        {
-            title: 'Starting time',
-            key: 'startingTime',
-            dataIndex: 'startingTime',
+          title: 'Creator',
+          key: 'createdBy',
+          width: 100,
+          dataIndex: 'createdBy',
+          render(createdBy){
+            return(<p>{createdBy}</p>)
+          }
         },
         {
           title: 'Your bet',
-          key: 'yourBet',
-          dataIndex: 'yourBet',
-        }
+          key: 'userBet',
+          width: 100,
+          dataIndex: 'userBet',
+          fixed: 'right',
+          render(horse, index){
+            if(horse == index.winningHorse){
+              return(<p>{horse}</p>)
+            } else if (horse == "No bet"){
+              return(<p>No bet!</p>)
+            } else if (index.winningHorse == undefined){
+              return(<p>{horse}</p>)
+            } else {
+              return(<p>{horse}</p>)
+            }
+          }
+        },
+        {
+          title: 'Starting time',
+          key: 'startingTime',
+          dataIndex: 'startingTime',
+          width: 100,
+          defaultSortOrder: 'descend',
+          fixed: 'right',
+          sorter: (a, b) => moment(a.startingTime).unix() - moment(b.startingTime).unix(),
+          render(time){
+            return(<p>{time}</p>)
+          }
+        },
       ];
     
     return (
         <div>
             <h1>Results</h1>
-            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 4}} />
+            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 3}} scroll={{x: 600}}/>
         </div>
         
     );
