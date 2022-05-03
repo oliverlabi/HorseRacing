@@ -1,16 +1,19 @@
 import { useContext } from "react"
 import { Context } from "../store";
 import {Form, Input, Button} from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { loginUser } from "../store/actions";
 import BackendUrl from './BackendUrl';
-import SuccessMessage from "./SuccessMessage";
-import ErrorMessage from "./ErrorMessage";
+import SuccessMessage from "./messages/SuccessMessage";
+import ErrorMessage from "./messages/ErrorMessage";
 
 
 function Login(){
     const [state, dispatch] = useContext(Context)
-    
+    const [refresh, setRefresh] = useOutletContext();
+
+    const increment = () => setRefresh((c) => c + 1);
+
     const onFinish = (values) => {
         const loginAttempt = {
             userName: values.userName,
@@ -46,6 +49,7 @@ function Login(){
             }
             dispatch(loginUser(loginState));
             SuccessMessage('Successful login!');
+            increment();
         }).catch(error => {
             ErrorMessage(error);
         });

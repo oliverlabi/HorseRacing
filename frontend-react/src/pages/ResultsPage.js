@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Context } from "../store";
 import { updateRace } from "../store/actions";
 import BackendUrl from "../components/BackendUrl";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../components/messages/ErrorMessage";
 import { Table } from "antd";
 import moment from "moment";
 import ConvertTrackName from "../components/ConvertTrackName";
@@ -102,12 +102,17 @@ const ResultsPage = () => {
             key: 'startingTime',
             dataIndex: 'startingTime',
         },
+        {
+          title: 'Your bet',
+          key: 'yourBet',
+          dataIndex: 'yourBet',
+        }
       ];
     
     return (
         <div>
             <h1>Results</h1>
-            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 6}} />
+            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 4}} />
         </div>
         
     );

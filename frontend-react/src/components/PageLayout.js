@@ -8,6 +8,7 @@ const { Content, Footer, Sider } = Layout;
 const PageLayout = () => {
     const [state, dispatch] = useContext(Context);
     const location = useLocation()
+    const [refresh, setRefresh] = useState(0);
     const navigation = useNavigate();
     const [accountBtn, setAccountBtn] = useState('');
     const [hideMeter, setHiddenMeter] = useState('none');
@@ -64,7 +65,6 @@ const PageLayout = () => {
         } else if(matches) {
             setSiderWidth('40vw');
             setBalanceMeter('horizontal-tb');
-            
         }
 
         if(state.auth.token != null){
@@ -74,7 +74,9 @@ const PageLayout = () => {
             setAccountBtn('Login');
             setHiddenMeter('none');
         }
-    }, [state, matches, location, balance]);
+    }, [location, balance, refresh, matches]);
+
+    console.log(state);
 
     return(
         <Layout style={{
@@ -163,7 +165,7 @@ const PageLayout = () => {
                     </Content>
                     <div className='site-layout-background'>
                         <div className='sub-background'>
-                            <Outlet/>
+                            <Outlet context={[refresh, setRefresh]}/>
                         </div>
                         <div className='balance-meter'><h3
                             style={{

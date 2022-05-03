@@ -80,9 +80,10 @@ exports.createBet = async (req, res) => {
 
 exports.endBet = async (req, res) => {
   const { raceID } = req.params
-  const { userName } = req.body
+  const { userName, horseCount } = req.body
 
   try{
+
     const userCheck = await User.find({userName: userName})
   
     if(!userCheck) throw Error("Error with username!")
@@ -109,10 +110,13 @@ exports.endBet = async (req, res) => {
     const balanceCheck = await User.findOne({userName: userName}, {_id: 0, balance: 1})
 
     if(checkWinningHorse.winningHorse == parsedData.horse){
-      await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance + parsedData.amount})
+      await User.findOneAndUpdate({userName: userName}, {balance: balanceCheck.balance + (parsedData.amount * (horseCount))})
+      res.status(200).json(balanceCheck.balance + (parsedData.amount * horseCount))
+    } else {
+      const balanceData = await User.findOne({userName: userName}, {_id: 0, balance: 1})
+      res.status(200).json(balanceData)
     }
 
-    res.status(200).res(balanceCheck.balance + parsedData.amount)
   } catch (e){
     res.status(400).json({ error: e.message })
   }
@@ -120,14 +124,15 @@ exports.endBet = async (req, res) => {
 }
 
 exports.addWinningHorse = async (req, res) => {
-  const { raceID, horse } = req.params
+  const { raceID } = req.params
+  const { horse } = req.body
 
   try {
     const race = await Race.findOne({raceID: raceID})
 
     if(!race) throw Error("Error with finding the race ID!")
 
-    const setWinningHorse = await User.findOneAndUpdate({raceID: raceID}, {winningHorse: horse})
+    const setWinningHorse = await Race.findOneAndUpdate({raceID: raceID}, {$set: {winningHorse: horse}})
 
     if(!setWinningHorse) throw Error("Error with setting the winner horse!")
 

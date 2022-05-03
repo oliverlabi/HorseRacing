@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, DatePicker, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import BackendUrl from '../components/BackendUrl';
-import ErrorMessage from '../components/ErrorMessage';
-import SuccessMessage from '../components/SuccessMessage';
+import ErrorMessage from '../components/messages/ErrorMessage';
+import SuccessMessage from '../components/messages/SuccessMessage';
 import moment from 'moment';
-import LoginPromptMessage from '../components/LoginPromptMessage';
+import LoginPromptMessage from '../components/messages/LoginPromptMessage';
 
 const CreateRacePage = () => {
     const [state] = useContext(Context);
@@ -18,7 +18,7 @@ const CreateRacePage = () => {
         window.matchMedia(('(min-width: 576px)')).matches
     )
     const { TextArea } = Input;
-    const COLORS = ['Red', 'Blue', 'Green', 'Yellow', 'White', 'Black'];
+    const COLORS = ['Red', 'Blue', 'Green', 'Orange', 'Gray', 'Black'];
     const [selectedColors, setSelectedColors] = useState([]);
     const filteredOptions = COLORS.filter(o => !selectedColors.includes(o));
     const refOption = useRef();
@@ -70,7 +70,7 @@ const CreateRacePage = () => {
         }).then((response) => {
             if(response.ok){
                 SuccessMessage("Race successfully created!")
-                return navigate("/")
+                return navigate("/races")
             } else {
                 throw new Error("Error posting the race!")
             }

@@ -5,12 +5,17 @@ import { Context } from "../store";
 import { Button } from 'antd';
 import { logoutUser } from '../store/actions';
 import TopUpButton from '../components/TopUpButton';
+import { useOutletContext } from 'react-router-dom';
 
 const AccountPage = () => {
     const [state, dispatch] = useContext(Context);
+    const [refresh, setRefresh] = useOutletContext();
+
+    const increment = () => setRefresh((c) => c + 1);
 
     const logout = () => {
         dispatch(logoutUser());
+        increment();
     }
 
     switch(state.auth.token){

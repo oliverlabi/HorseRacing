@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import {Form, Input, Button } from 'antd';
 import BackendUrl from './BackendUrl';
-import SuccessMessage from './SuccessMessage';
-import ErrorMessage from './ErrorMessage';
+import SuccessMessage from './messages/SuccessMessage';
+import ErrorMessage from './messages/ErrorMessage';
 
 const RegistrationForm = () => {
     const navigate = useNavigate();

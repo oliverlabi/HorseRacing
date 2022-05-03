@@ -2,12 +2,16 @@ import './styles/TopUpButton.css';
 import BackendUrl from './BackendUrl';
 import { useContext } from 'react';
 import { Context } from '../store';
-import ErrorMessage from './ErrorMessage'
-import BalanceMessage from './BalanceMessage';
+import ErrorMessage from './messages/ErrorMessage'
+import BalanceMessage from './messages/BalanceMessage';
 import { addBalance } from '../store/actions';
+import { useOutletContext } from 'react-router-dom';
 
 const TopUpButton = () => {
-    const [state, dispatch] = useContext(Context)
+    const [state, dispatch] = useContext(Context);
+    const [refresh, setRefresh] = useOutletContext();
+
+    const increment = () => setRefresh((c) => c + 1);
 
     const setBalance = () => {
         const balanceModification = {
@@ -20,7 +24,8 @@ const TopUpButton = () => {
         }).then((response) => {
             if(response.ok){
                 dispatch(addBalance(state.auth.balance + 1));
-                BalanceMessage('+1')
+                BalanceMessage('+1');
+                increment();
             } else {
                 throw new Error('Error topping up balance!');
             }

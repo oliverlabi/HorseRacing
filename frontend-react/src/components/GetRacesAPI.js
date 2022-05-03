@@ -1,23 +1,13 @@
-import '../App.less';
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../store';
-import RaceBoxWithModal from '../components/RaceBoxWithModal';
-import { Link } from 'react-router-dom';
-import BackendUrl from "../components/BackendUrl";
+import BackendUrl from "./BackendUrl";
 import moment from "moment";
+import { useContext } from "react";
+import { Context } from "../store";
 import { updateRace } from "../store/actions";
-import CalculateWinner from "../components/CalculateWinner";
-import ErrorMessage from "../components/messages/ErrorMessage";
-import SuccessMessage from '../components/messages/SuccessMessage';
+import CalculateWinner from "./CalculateWinner";
+import ErrorMessage from "./messages/ErrorMessage";
 
-const RacesPage = ({stateChanger}) => {
+const GetRacesAPI = () => {
     const [state, dispatch] = useContext(Context);
-    const [refresh, setRefresh] = useState(0);
-
-    useEffect(() => {
-        getRaces();
-        //stateChanger(e => e + 1);
-    }, [refresh])
 
     async function getRaces(){
         fetch(BackendUrl + 'api/race/all')
@@ -57,29 +47,7 @@ const RacesPage = ({stateChanger}) => {
         return false;
     }
 
-    const checkEmptyState = () => {
-        if(state.races.data.length == 0){
-            return (<p>No races as of now. <Link to='/create-race'>Create one now!</Link></p>)
-        } else {
-            return(
-                <div>
-                    <RaceBoxWithModal stateChanger={setRefresh}></RaceBoxWithModal>
-                </div>
-            )
-        }
-    }
-
-    const onRefreshClick = () => {
-        setRefresh(e => e + 1)
-        SuccessMessage('Refreshed!');
-    }
-
-    return(
-        <div>
-            <h1>Races <p onClick={() => onRefreshClick()}style={{fontSize: 'small', color: '#990AE3', cursor: 'pointer'}}>Refresh</p></h1>
-            {checkEmptyState()}
-        </div> 
-    );
+    getRaces();
 }
 
-export default RacesPage;
+export default GetRacesAPI;
