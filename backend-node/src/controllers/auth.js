@@ -13,8 +13,8 @@ exports.login = async (req, res) => {
         if (!isMatch) throw Error("Invalid credentials!")
 
         const userTemplate = {
-        id: user.id,
-        userName
+            id: user.id,
+            userName
         }
 
         const token = jwt.sign(userTemplate, process.env.JWT_SECRET)
