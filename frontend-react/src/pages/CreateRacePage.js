@@ -20,8 +20,10 @@ const CreateRacePage = () => {
     const { TextArea } = Input;
     const COLORS = ['Red', 'Blue', 'Green', 'Orange', 'Gray', 'Black'];
     const [selectedColors, setSelectedColors] = useState([]);
+    const [selectedIndexes, setSelectedIndexes] = useState([]);
     const filteredOptions = COLORS.filter(o => !selectedColors.includes(o));
-    const refOption = useRef();
+    const [dynamicButtonStatus, setDynamicButtonStatus] = useState(false);
+    const [horseCount, setHorseCount] = useState(0);
 
     const navigate = useNavigate();
 
@@ -39,7 +41,14 @@ const CreateRacePage = () => {
             setDynamicBtnMarginLeft('37.5%')
         }
 
-    }, [matches, selectedColors]);
+        if(selectedColors.length == horseCount){
+            setDynamicButtonStatus(false);
+        } else {
+            setDynamicButtonStatus(true);
+        }
+
+
+    }, [matches, selectedColors, horseCount]);
 
     const onFinish = (values) => {
         var horseNamesArray = [];
@@ -79,16 +88,35 @@ const CreateRacePage = () => {
         });   
     }
 
-    function handleDynamicFieldRemoval(fieldName, removeFn){
+    const handleDynamicFieldRemoval = (fieldName, removeFn) => {
         setSelectedColors(currentColors => currentColors.filter((x, index, arr) => {
             return index!==fieldName;
         }));
+        setHorseCount(horse => horse - 1);
         removeFn(fieldName);
     }
 
-    function handleDynamicDropdownColorRemoval(currentChoice, arr) {
-        setSelectedColors(currentColors => currentColors.concat(currentChoice));
-        
+    const handleDynamicDropdownColorRemoval = (currentChoice, arr) => {
+        if(selectedIndexes[arr.index] == undefined){
+            setSelectedIndexes(currentIndex => currentIndex.concat(arr.index));
+            setSelectedColors(currentColors => currentColors.concat(currentChoice));
+        } else {
+            setSelectedColors(currentColors => currentColors.filter(word => word != selectedColors[arr.index]));
+            setSelectedColors(currentColors => addToIndex(currentColors, arr.index, currentChoice));
+        }
+    }
+
+    const addToIndex = (array, index, newItem) => {
+        return [
+            ...array.slice(0, index),
+            newItem,
+            ...array.slice(index)
+        ];
+    }
+
+    const handleDynamicOnClick = (addFn) => {
+        setHorseCount(horse => horse + 1);
+        addFn();
     }
     
     const getDisabledHours = () => {
@@ -224,7 +252,7 @@ const CreateRacePage = () => {
                     {(fields, { add, remove }, { errors }) => ( 
                     <div>
                         {fields.map((field, index) => (
-                        <Form.Item style={{display: 'flex', justifyContent: 'center', alignContent: 'flex-start', marginBottom: '24px'}}
+                        <Form.Item style={{display: 'flex', justifyContent: 'center', alignContent: 'flex-start', marginBottom: '12px'}}
                             required={true}
                             key={field.key}
                         >
@@ -269,7 +297,7 @@ const CreateRacePage = () => {
                                         style={{fontWeight: '400', width: '30%'}}
                                     >
                                         {filteredOptions.map((item) => (
-                                            <Select.Option key={item} value={item} index={index} ref={refOption}>
+                                            <Select.Option key={item} value={item} index={index}>
                                                 {item}
                                             </Select.Option>
                                             
@@ -290,8 +318,9 @@ const CreateRacePage = () => {
                         <Form.Item style={{marginLeft: dynamicBtnMarginLeft}}>
                             <Button
                                 type="dashed"
-                                onClick={() => add()}
+                                onClick={() => handleDynamicOnClick(add)}
                                 icon={<PlusOutlined />}
+                                disabled={dynamicButtonStatus}
                             >
                                 Add a horse
                             </Button>

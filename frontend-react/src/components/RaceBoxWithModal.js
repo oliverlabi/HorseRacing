@@ -16,7 +16,7 @@ const RaceBoxWithModal = ({stateChanger}) => {
     const [state, dispatch] = useContext(Context);
     const [refresh, setRefresh] = useOutletContext();
 
-    const increment = () => setRefresh((c) => c + 1);
+    const increment = () => setRefresh((c) => c + 1); //Refreshes balance on sider
     //style
     const [betOrientation, setBetOrientation] = useState();
     const [betTextMargin, setBetTextMargin] = useState('auto');
@@ -96,7 +96,7 @@ const RaceBoxWithModal = ({stateChanger}) => {
             });
         } else {
             ErrorMessage('Betting has already ended for this race!');
-            stateChanger(e => e + 1);
+            stateChanger(e => e + 1); //Refreshes race list
         }
         
         setIsModalVisible(false);

@@ -37,7 +37,9 @@ const authReducer = (state, action) => {
       return {
         ...state,
         username: null,
-        token: null
+        token: null,
+        balance: null,
+        bets: null
       }
     case ADD_BALANCE:
       return {

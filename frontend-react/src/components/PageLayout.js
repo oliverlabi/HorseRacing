@@ -55,7 +55,7 @@ const PageLayout = () => {
         .matchMedia(('(min-width: 1200px)'))
         .addEventListener('change', e => setMatches(e.matches));
 
-        setSelectedKey(siderLinks.find(_link => location.pathname.startsWith(_link.path)).key);
+        setSelectedKey(siderLinks.find(_link => location.pathname.startsWith(_link.path)).key); //Refreshes sider on menu click
         setBalance(state.auth.balance);
 
         if(!matches){

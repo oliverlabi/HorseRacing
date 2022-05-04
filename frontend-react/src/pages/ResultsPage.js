@@ -25,17 +25,18 @@ const ResultsPage = () => {
         .catch(error => {
           ErrorMessage(error);
         });
-      }, [])
+      }, [state.auth])
 
     const userBets = (row, index, option) => {
       if(state.auth.bets != undefined && state.auth.bets.some(el => el.raceID == row.raceID)){
         const betIndex = state.auth.bets.findIndex(e => e.raceID == row.raceID);
         if(option == 0){
           return state.auth.bets[betIndex].horse;
-        } else {
-          return state.auth.bets[betIndex].horse + ', ' + state.auth.bets[betIndex].amount + ' c';
+        } else if (option == 1){
+          return state.auth.bets[betIndex].horse;
+        } else if (option == 2){
+          return state.auth.bets[betIndex].amount + ' c';
         }
-        
       } else {
         return "No bet";
       }
@@ -54,7 +55,8 @@ const ResultsPage = () => {
             horseColors: row.horseColors,
             winningHorse: row.winningHorse,
             createdBy: row.createdBy,
-            userBet: userBets(row, index, 1)
+            userHorse: userBets(row, index, 1),
+            userBet: userBets(row, index, 2)
         }))
     
         rows = [
@@ -68,7 +70,7 @@ const ResultsPage = () => {
         {
           title: 'Name',
           dataIndex: 'raceName',
-          width: 100,
+          width: 75,
           key: 'raceName',
           fixed: 'left',
           render(name){
@@ -79,9 +81,8 @@ const ResultsPage = () => {
         {
           title: 'Status',
           dataIndex: 'status',
-          width: 100,
+          width: 75,
           key: 'status',
-          fixed: 'left',
           render(horse, index){
             if(horse == index.winningHorse){
               return(<p style={{color: 'Green'}}>Won</p>)
@@ -133,7 +134,7 @@ const ResultsPage = () => {
           title: 'Winner',
           key: 'winningHorse',
           dataIndex: 'winningHorse',
-          width: 75,
+          width: 65,
           render(horse){
             if(horse == undefined){
                 return <p>No results yet!</p>
@@ -143,20 +144,10 @@ const ResultsPage = () => {
           }
         },
         {
-          title: 'Creator',
-          key: 'createdBy',
-          width: 100,
-          dataIndex: 'createdBy',
-          render(createdBy){
-            return(<p>{createdBy}</p>)
-          }
-        },
-        {
-          title: 'Your bet',
-          key: 'userBet',
-          width: 100,
-          dataIndex: 'userBet',
-          fixed: 'right',
+          title: 'Your horse',
+          key: 'userHorse',
+          width: 65,
+          dataIndex: 'userHorse',
           render(horse, index){
             if(horse == index.winningHorse){
               return(<p>{horse}</p>)
@@ -170,13 +161,39 @@ const ResultsPage = () => {
           }
         },
         {
+          title: 'Bet amount',
+          key: 'userBet',
+          width: 70,
+          dataIndex: 'userBet',
+          render(horse, index){
+            if(horse == index.winningHorse){
+              return(<p>{horse}</p>)
+            } else if (horse == "No bet"){
+              return(<p>No bet!</p>)
+            } else if (index.winningHorse == undefined){
+              return(<p>{horse}</p>)
+            } else {
+              return(<p>{horse}</p>)
+            }
+          }
+        },
+        {
+          title: 'Creator',
+          key: 'createdBy',
+          dataIndex: 'createdBy',
+          width: 70,
+          render(createdBy){
+            return(<p>{createdBy}</p>)
+          }
+        },
+        {
           title: 'Starting time',
           key: 'startingTime',
           dataIndex: 'startingTime',
-          width: 100,
           defaultSortOrder: 'descend',
+          width: 75,
           fixed: 'right',
-          sorter: (a, b) => moment(a.startingTime).unix() - moment(b.startingTime).unix(),
+          sorter: (a, b) => moment(a.startingTime) - moment(b.startingTime),
           render(time){
             return(<p>{time}</p>)
           }
@@ -186,11 +203,11 @@ const ResultsPage = () => {
     return (
         <div>
             <h1>Results</h1>
-            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 3}} scroll={{x: 600}}/>
+            <Table columns={columns} dataSource={rows} size='small' pagination={{pageSize: 3}} scroll={{x: 500, y: 400}} style={{minWidth: '250px', maxWidth: '600px', width: '60vw'}} showSorterTooltip={false}/>
         </div>
         
     );
 
 }
 
-export default ResultsPage
+export default ResultsPage;
