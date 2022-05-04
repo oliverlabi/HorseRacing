@@ -30,7 +30,7 @@ const RacesPage = ({stateChanger}) => {
             })
             .then(data => {
                 var tempArray = [];
-                for(var i = 0; i < data.length; i++){
+                for(var i = data.length - 1; i > -1 ; i--){
                     if(checkIfActiveBet(data[i], i) || moment().isBefore(moment(data[i].startingTime))){
                         tempArray.push(data[i]);
                     }

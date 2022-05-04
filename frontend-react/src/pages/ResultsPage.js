@@ -85,7 +85,7 @@ const ResultsPage = () => {
           key: 'status',
           render(horse, index){
             if(horse == index.winningHorse){
-              return(<p style={{color: 'Green'}}>Won</p>)
+              return(<p style={{color: 'Green'}} text='won' >Won</p>)
             } else if (horse == "No bet"){
               return(<p style={{color: 'Black'}}>No bet!</p>)
             } else if (index.winningHorse == undefined){
