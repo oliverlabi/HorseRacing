@@ -8,7 +8,7 @@ const bets = new Schema({
 })
 
 const userSchema = new Schema({
-    userName: { type: String, required: true, unique: true, maxLength: 50 },
+    userName: { type: String, required: true, unique: true, maxLength: 30 },
     password: { type: String, required: true },
     balance: { type: Number, default: 25 },
     bets: [ bets ],

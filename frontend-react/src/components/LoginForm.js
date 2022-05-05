@@ -27,11 +27,9 @@ function Login(){
             if(response.ok){
                 fetchUserData(loginAttempt);
             } else {
-                throw new Error("Invalid credentials!");
+                ErrorMessage("Invalid credentials!");
             }
-        }).catch(error => {
-            ErrorMessage(error);
-        });
+        })
     }
 
     const fetchUserData = (loginAttempt) => {
@@ -78,6 +76,14 @@ function Login(){
                     required: true,
                     message: 'Please input your username!',
                 },
+                {
+                    pattern: new RegExp(/^[a-zA-Z0-9]*$/),
+                    message: 'Invalid type of username!'
+                },
+                {
+                    max: 30,
+                    message: 'Username can not be longer than 30 letters!'
+                }
                 ]}
             >
                 <Input/>

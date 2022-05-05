@@ -57,6 +57,14 @@ const RegistrationForm = () => {
                         min: 5,
                         message: 'Minimum length is 5!',
                     },
+                    {
+                        pattern: new RegExp(/^[a-zA-Z0-9]*$/),
+                        message: 'Invalid type of username!'
+                    },
+                    {
+                        max: 30,
+                        message: 'Username can not be longer than 30 letters!'
+                    }
                     ]}
                 >
                     <Input/>

@@ -166,8 +166,12 @@ const CreateRacePage = () => {
                             
                         },
                         {
-                            maxLength: 25,
+                            max: 25,
                             message: 'Name can not be longer than 25 letters!'
+                        },
+                        {
+                            pattern: new RegExp(/^[a-zA-Z0-9 ]*$/),
+                            message: 'Invalid name!'
                         }
                     ]}
                 >
@@ -183,8 +187,12 @@ const CreateRacePage = () => {
                             
                         },
                         {
-                            maxLength: 50,
+                            max: 50,
                             message: 'Description can not be longer than 50 letters!'
+                        },
+                        {
+                            pattern: new RegExp(/^[a-zA-Z0-9 ]*$/),
+                            message: 'Invalid description!'
                         }
                     ]}
                 >
@@ -268,8 +276,12 @@ const CreateRacePage = () => {
                                         message: "Please input a name or delete this field!",
                                     },
                                     {
-                                        max: 20,
-                                        message: 'Maximum horse name length is 14 characters',
+                                        max: 25,
+                                        message: 'Maximum horse name length is 25 characters',
+                                    },
+                                    {
+                                        pattern: new RegExp(/^[a-zA-Z0-9 ]*$/),
+                                        message: 'Invalid name!'
                                     }
                                 ]}
                                 noStyle

@@ -5,7 +5,6 @@ import RacesPage from './pages/RacesPage';
 import AccountPage from './pages/AccountPage';
 import PageLayout from './components/PageLayout';
 import RegistrationForm from './components/RegistrationForm';
-import TracksPage from './pages/TracksPage';
 import ResultsPage from './pages/ResultsPage';
 import BettingOddsPage from './pages/BettingOdds';
 
@@ -19,7 +18,6 @@ function App() {
             <Route path='create-race' element={<CreateRacePage/>} />
             <Route path='prev-results' element={<ResultsPage/>} />
             <Route path='register' element={<RegistrationForm/>} />
-            <Route path='tracks' element={<TracksPage/>} />
             <Route path='betting-odds' element={<BettingOddsPage/>} />
             <Route
                 path='*'
