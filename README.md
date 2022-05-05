@@ -40,12 +40,12 @@ How to start tests:
 
 ## Screenshots
 
-![/pictures/races-view.jpg](Races page with an active bet)
-![/pictures/account-view.jpg](Logged in account page)
-![/pictures/results-view.jpg](Results table)
-![/pictures/login-view-resp.jpg](Login page with small window size)
-![/pictures/races-view-resp.jpg](Races page with small window size)
-![/pictures/menu-view-resp.jpg](Menu view on sider click)
+![Races page with an active bet](/pictures/races-view.jpg)
+![Logged in account page](/pictures/account-view.jpg)
+![Results table](/pictures/results-view.jpg)
+![Login page with small window size](/pictures/login-view-resp.jpg)
+![Races page with small window size](/pictures/races-view-resp.jpg)
+![Menu view on sider click](/pictures/menu-view-resp.jpg)
 
 ## Technologies used
 
