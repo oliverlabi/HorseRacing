@@ -31,7 +31,7 @@ As it is hosted on free Heroku account, it can be slow.
 
 ## Tests
 
-Backend has 8 integration tests made with Jest.
+Backend has 8 integration tests made with Jest and Supertest.
 
 How to start tests:
 * Start command prompt
@@ -54,6 +54,7 @@ How to start tests:
 * MongoDB Atlas
 * Heroku
 * Jest
+* Supertest
 * Ant Design
 
 ## Authors
