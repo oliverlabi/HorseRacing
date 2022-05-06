@@ -37,9 +37,9 @@ For the best performance, it is recommended to install and open the application 
 
 ### Steps:
 1. Node.js and MongoDB community server installed
-2. Clone the production branch to your local folder
+2. Clone the main branch to your local folder
 3. Open command prompt
-4. Navigate to the root folder and use command ```npm install```
+4. Navigate to the backend-node/src folder and use command ```npm install```
 5. Start the backend with ```node index.js```
 6. Open another command prompt
 7. Navigate to the frontend folder and use command ```npm install```
@@ -53,7 +53,7 @@ Backend has 8 integration tests made with Jest and Supertest.
 How to start tests:
 1. Have local setup successfully installed
 2. Open command prompt
-3. Navigate to the root folder
+3. Navigate to the backend-node/src folder
 4. Start command "npm test"
 
 ## Screenshots
