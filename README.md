@@ -31,14 +31,30 @@ Upon first starting the application, I recommend opening both sites and letting 
 * Main branch stores development build
 * Production branch stores production build
 
+## Local setup (optional)
+
+For the best performance, it is recommended to install and open the application locally.<br />
+
+### Steps:
+1. Node.js and MongoDB community server installed
+2. Clone the production branch to your local folder
+3. Open command prompt
+4. Navigate to the root folder and use command ```npm install```
+5. Start the backend with ```node index.js```
+6. Open another command prompt
+7. Navigate to the frontend folder and use command ```npm install```
+8. Start the frontend with ```npm start```
+9. Web application should open automatically
+
 ## Tests
 
 Backend has 8 integration tests made with Jest and Supertest.
 
 How to start tests:
-* Start command prompt
-* Navigate to backend-node/src
-* Start command "npm test"
+1. Have local setup successfully installed
+2. Open command prompt
+3. Navigate to the root folder
+4. Start command "npm test"
 
 ## Screenshots
 
