@@ -5,7 +5,9 @@ Simple web application, where you can create horse races and bet on them.
 Web application has been deployed to Heroku and is accessible on:<br />
 Frontend: https://horseracing-frontend-ol.herokuapp.com/<br />
 Backend: https://horseracing-backend-ol.herokuapp.com/<br />
-As it is hosted on free Heroku account, it can be slow.
+As it is hosted on free Heroku account, it can be slow.<br />
+Upon first starting the application, I recommend opening both sites and letting them load for a bit, as they might be inactive.
+
 
 ## Functionalities
 
