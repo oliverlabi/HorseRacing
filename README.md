@@ -49,7 +49,7 @@ How to start tests:
 1. Have local setup successfully installed
 2. Open command prompt
 3. Navigate to the root folder
-4. Start command "npm test"
+4. Start command ```npm test```
 
 ## Screenshots
 
