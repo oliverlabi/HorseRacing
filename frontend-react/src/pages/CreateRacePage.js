@@ -166,8 +166,8 @@ const CreateRacePage = () => {
                             
                         },
                         {
-                            max: 25,
-                            message: 'Name can not be longer than 25 letters!'
+                            max: 40,
+                            message: 'Name can not be longer than 40 letters!'
                         },
                         {
                             pattern: new RegExp(/^[a-zA-Z0-9 ]*$/),
@@ -187,11 +187,11 @@ const CreateRacePage = () => {
                             
                         },
                         {
-                            max: 50,
-                            message: 'Description can not be longer than 50 letters!'
+                            max: 75,
+                            message: 'Description can not be longer than 75 letters!'
                         },
                         {
-                            pattern: new RegExp(/^[a-zA-Z0-9 ]*$/),
+                            pattern: new RegExp(/^[a-zA-Z0-9.,!? ]*$/),
                             message: 'Invalid description!'
                         }
                     ]}

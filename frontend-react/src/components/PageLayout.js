@@ -2,6 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../store';
+import BackendUrl from './BackendUrl';
+import { addBalance, removeRace } from '../store/actions';
+import ErrorMessage from './messages/ErrorMessage'
 
 const { Content, Footer, Sider } = Layout;
 
@@ -37,16 +40,44 @@ const PageLayout = () => {
             ).key
         );
 
-    const onClickMenu = (link) => {
-        const clicked = siderLinks.find(_link => _link.key === link.key)
-        navigation(clicked.path)
-    }
+        const onClickMenu = (link) => {
+            if(link.key == 1 || link.key == 4){
+                dispatch(removeRace())
+            }
+            if(state.auth.username != null){
+                refreshBalanceFromDb();
+                const clicked = siderLinks.find(_link => _link.key === link.key)
+                navigation(clicked.path)
+            } else {
+                const clicked = siderLinks.find(_link => _link.key === link.key)
+                navigation(clicked.path)
+            }
+            
+        }
 
     const menuFunctions = (link) => {
         if(!matches){
             setSiderKey(key => key + 1);
         }
         onClickMenu(link);
+    }
+
+    const refreshBalanceFromDb = () => {
+        fetch(BackendUrl + 'api/auth/checkBalance/' + state.auth.username)
+        .then(response => {
+          if(response.ok){
+            return response.json();
+          } else {
+              ErrorMessage("Error checking balance!");
+          }
+        })
+        .then(data => {
+            dispatch(addBalance(data));
+            setBalance(data);
+        })
+        .catch(error => {
+          ErrorMessage(error);
+        });
     }
 
     useEffect(() => {
@@ -74,8 +105,6 @@ const PageLayout = () => {
             setHiddenMeter('none');
         }
     }, [location, balance, refresh, matches]);
-
-    console.log(state);
 
     return(
         <Layout style={{

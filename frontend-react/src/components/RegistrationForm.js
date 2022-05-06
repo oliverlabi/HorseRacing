@@ -20,10 +20,8 @@ const RegistrationForm = () => {
                     SuccessMessage("Account successfully created!");
                     return navigate("/account");
                 } else {
-                    throw new Error('Error creating an account!')
+                    ErrorMessage("Error creating an account!")
                 }
-            }).catch(error => {
-                ErrorMessage(error);
             });
         }
         

@@ -39,17 +39,12 @@ For the best performance, it is recommended to install and open the application 
 1. Node.js and MongoDB community server installed
 2. Clone the main branch to your local folder
 3. Open command prompt
-4. Navigate to the backend-node/src folder and use command ```npm install```
-5. Create .env file in the src folder with following contents:<br />
-```
-MONGO_URL="mongodb://localhost:27017/horse-racing"
-JWT_SECRET="secretkeyforTeliaHRApp"
-```
-7. Start the backend with ```node index.js```
-8. Open another command prompt
-9. Navigate to the frontend folder and use command ```npm install```
-10. Start the frontend with ```npm start```
-11. Web application should open automatically
+4. Navigate to the root folder and use command ```npm install```
+5. Start the backend with ```node index.js```
+6. Open another command prompt
+7. Navigate to the frontend folder and use command ```npm install```
+8. Start the frontend with ```npm start```
+9. Web application should open automatically
 
 ## Tests
 
@@ -58,7 +53,7 @@ Backend has 8 integration tests made with Jest and Supertest.
 How to start tests:
 1. Have local setup successfully installed
 2. Open command prompt
-3. Navigate to the backend-node/src folder
+3. Navigate to the root folder
 4. Start command "npm test"
 
 ## Screenshots

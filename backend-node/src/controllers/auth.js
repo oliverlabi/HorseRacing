@@ -1,10 +1,10 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("../models/User")
+const jwtToken = process.env.JWT_SECRET || 'localtoken'
 
 exports.login = async (req, res) => {
     const { password, userName } = req.body
-
     try {
         const user = await User.findOne({userName: userName})
         if (!user) throw Error("User with this username does not exist")
@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
             userName
         }
 
-        const token = jwt.sign(userTemplate, process.env.JWT_SECRET)
+        const token = jwt.sign(userTemplate, jwtToken)
         if (!token) throw Error("Something critical happened")
 
         res.status(200).json({
@@ -104,7 +104,7 @@ exports.getBalance = async (req, res) => {
     const { userName } = req.params
     
     try{
-        const data = await User.findOne({userName: userName})
+        const data = await User.findOne({userName: userName}, {_id: 0, balance: 1})
 
         if (!data) throw Error("Error finding user")
 

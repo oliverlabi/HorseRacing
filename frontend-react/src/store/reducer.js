@@ -10,7 +10,7 @@ const raceReducer = (state, action) => {
     case RACE_REMOVE:
       return {
         ...state,
-        data: state.data.filter(recipe => recipe.recipeID !== action.payload)
+        data: []
       }
     case RACE_UPDATE:
       const newData = [];

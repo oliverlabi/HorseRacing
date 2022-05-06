@@ -11,9 +11,8 @@ export const addRace = data => ({
     payload: data
 })
 
-export const removeRace = id => ({
-    type: RACE_REMOVE,
-    payload: id
+export const removeRace = () => ({
+    type: RACE_REMOVE
 })
 
 export const updateRace = data => ({
