@@ -26,11 +26,6 @@ Upon first starting the application, I recommend opening both sites and letting 
     * Balance can be earned by clicking top-up button on account page - 1 click, 1 c (currency)
 * Page is mostly responsive with few quirks
 
-## Branches
-
-* Main branch stores development build
-* Production branch stores production build
-
 ## Local setup (optional)
 
 For the best performance, it is recommended to install and open the application locally.<br />
